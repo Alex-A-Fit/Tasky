@@ -35,7 +35,7 @@ data class Typography(
     ),
     val header2: TextStyle = TextStyle(
         fontSize = 26.sp,
-        lineHeight = 25.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter().bold
     ),
@@ -52,7 +52,7 @@ data class Typography(
         fontFamily = Inter().bold
     ),
     val subHeader2: TextStyle = TextStyle(
-        fontSize = 17.sp,
+        fontSize = 16.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter().bold
