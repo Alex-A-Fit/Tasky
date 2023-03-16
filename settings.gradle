@@ -14,3 +14,13 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Tasky"
 include ':app'
+include ':core'
+include ':onboarding_auth'
+include ':agenda'
+include ':agenda:agenda_presentation'
+include ':agenda:agenda_domain'
+include ':agenda:agenda_data'
+include ':onboarding_auth:onboarding_auth_presentation'
+include ':onboarding_auth:onboarding_auth_domain'
+include ':onboarding_auth:onboarding_auth_data'
+include ':core_ui'
