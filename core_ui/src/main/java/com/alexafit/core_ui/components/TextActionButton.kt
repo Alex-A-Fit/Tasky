@@ -15,10 +15,10 @@ import com.alexafit.core_ui.LocalTypography
 @Composable
 fun TextActionButton(
     text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    textStyle: TextStyle? = null
+    textStyle: TextStyle?,
+    onClick: () -> Unit,
 ){
     Button(
         onClick = onClick,

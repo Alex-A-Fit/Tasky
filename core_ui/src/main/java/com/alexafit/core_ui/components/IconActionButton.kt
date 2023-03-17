@@ -11,11 +11,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun IconActionButton(
-    onClick: () -> Unit,
+    imageVector: ImageVector,
+    contentDescription: Int,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    imageVector: ImageVector,
-    contentDescription: Int
+    onClick: () -> Unit
 ){
     Button(
         onClick = onClick,
