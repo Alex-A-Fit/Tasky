@@ -1,12 +1,4 @@
 
-e
-5app/src/main/java/com/alexafit/tasky/ui/theme/Type.kt,7\d\7de497731e804a4e646cf77dd5692a25e5d93f90
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Theme.kt,6\b\6b84f28927bad68aabe5f7e8b1a165dd8beefc56
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Shape.kt,f\d\fd3847f5e5288930390fb850e2dc14a4c343375c
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Color.kt,8\8\882d23ea98d3e56577aaa04daa96f41e6fc8c058
 ;
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 7
@@ -27,9 +19,6 @@ i
 9onboarding_auth/onboarding_auth_domain/proguard-rules.pro,f\9\f93aa5b57b4ac92fa98e6d033cabd9544517df61
 ]
 -agenda/agenda_presentation/consumer-rules.pro,c\1\c134f3169cd680c4a6889227fb63476c21089e3e
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 ]
 -agenda/agenda_presentation/proguard-rules.pro,e\1\e13517d7ae50175a2c9eccf758dc83daf60b9650
 ?
@@ -138,8 +127,6 @@ I
 buildSrc/build.gradle.kts,d\9\d90b697280fada81e52ec92d24725920f1cb087b
 E
 core/build.gradle.kts,d\7\d72846b7b418aa17de692d1ccf924c738cf8dbe5
-H
-core_ui/build.gradle.kts,e\7\e7faa6169af6f9cc73376752ed65b4e92a05cd80
 e
 5onboarding_auth/onboarding_auth_data/build.gradle.kts,5\c\5cb07d6658694275ba27ef138363a661f0b43c47
 g

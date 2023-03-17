@@ -1,6 +1,6 @@
 package com.alexafit.core_ui
 
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,72 +26,53 @@ object Inter {
         )
 }
 
-data class Typography(
-    val header1: TextStyle = TextStyle(
+val Typography = Typography(
+    h1 = TextStyle(
         fontSize = 28.sp,
         lineHeight = 30.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.bold
     ),
-    val header2: TextStyle = TextStyle(
+    h2 = TextStyle(
         fontSize = 26.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.bold
     ),
-    val header3: TextStyle = TextStyle(
+    h3 = TextStyle(
         fontSize = 26.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.regular
     ),
-    val subHeader1: TextStyle = TextStyle(
+    subtitle1 = TextStyle(
         fontSize = 20.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.bold
     ),
-    val subHeader2: TextStyle = TextStyle(
+    subtitle2 = TextStyle(
         fontSize = 16.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.bold
     ),
-    val body1: TextStyle = TextStyle(
+    body1 = TextStyle(
         fontSize = 16.sp,
         lineHeight = 30.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.regular
     ),
-    val body1Light: TextStyle = TextStyle(
-        fontSize = 16.sp,
-        lineHeight = 30.sp,
-        letterSpacing = 0.sp,
-        fontFamily = Inter.light
-    ),
-    val body2: TextStyle = TextStyle(
+    body2 = TextStyle(
         fontSize = 14.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.regular
     ),
-    val body3: TextStyle = TextStyle(
-        fontSize = 16.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.sp,
-        fontFamily = Inter.regular
-    ),
-    val caption1: TextStyle = TextStyle(
+    caption = TextStyle(
         fontSize = 10.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.sp,
         fontFamily = Inter.regular
-    ),
-    val caption1Bold: TextStyle = TextStyle(
-        fontSize = 10.sp,
-        lineHeight = 12.sp,
-        letterSpacing = 0.sp,
-        fontFamily = Inter.bold
-    ),
-)
-val LocalTypography = compositionLocalOf { Typography() }
+    )
+    )
