@@ -1,0 +1,7 @@
+<resources>
+    <string name="title_create_account">Create your account</string>
+    <string name="title_welcome_back">Create your account</string>
+    <string name="text_get_started">Create your account</string>
+    <string name="text_log_in">Create your account</string>
+    <string name="content_desc_image_vector">This is an image vector</string>
+</resources>
