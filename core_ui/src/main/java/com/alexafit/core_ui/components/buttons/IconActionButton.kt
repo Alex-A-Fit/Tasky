@@ -1,4 +1,4 @@
-package com.alexafit.core_ui.components
+package com.alexafit.core_ui.components.buttons
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -7,12 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun IconActionButton(
     imageVector: ImageVector,
     contentDescription: Int,
+    shapeSpacing: Dp,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     onClick: () -> Unit
@@ -21,7 +22,7 @@ fun IconActionButton(
         onClick = onClick,
         modifier = modifier,
         enabled = isEnabled,
-        shape = RoundedCornerShape(100.dp)
+        shape = RoundedCornerShape(shapeSpacing)
     ) {
         Icon(imageVector = imageVector , contentDescription = stringResource(id = contentDescription))
     }

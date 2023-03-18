@@ -1,18 +1,8 @@
 
-e
-5app/src/main/java/com/alexafit/tasky/ui/theme/Type.kt,7\d\7de497731e804a4e646cf77dd5692a25e5d93f90
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Theme.kt,6\b\6b84f28927bad68aabe5f7e8b1a165dd8beefc56
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Shape.kt,f\d\fd3847f5e5288930390fb850e2dc14a4c343375c
-f
-6app/src/main/java/com/alexafit/tasky/ui/theme/Color.kt,8\8\882d23ea98d3e56577aaa04daa96f41e6fc8c058
 ;
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 7
 gradlew,5\b\5bbfa66edb4db3c7c33c5181f43510990d3307f9
-X
-(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 a
 1onboarding_auth/onboarding_auth_domain/.gitignore,6\e\6e3003c87650922889344dbc47a0f7cf8656324f
 U
@@ -27,25 +17,16 @@ i
 9onboarding_auth/onboarding_auth_domain/proguard-rules.pro,f\9\f93aa5b57b4ac92fa98e6d033cabd9544517df61
 ]
 -agenda/agenda_presentation/consumer-rules.pro,c\1\c134f3169cd680c4a6889227fb63476c21089e3e
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 ]
 -agenda/agenda_presentation/proguard-rules.pro,e\1\e13517d7ae50175a2c9eccf758dc83daf60b9650
-?
-settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 G
 core/consumer-rules.pro,9\d\9df576c5d0a011f72d84e78ce1617bc4e57720d5
 G
 core/proguard-rules.pro,a\e\ae321721a596c5c74bb3bf67ae304581e8f9ae75
-A
-gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 O
 agenda/agenda_domain/.gitignore,5\f\5fab74ab2d55a9dc71ea94722a0aa9e831fa812d
 _
 /onboarding_auth/onboarding_auth_data/.gitignore,d\8\d833c721d14a006dc87c3b3548672a8320ec7881
-B
-base-module.gradle,e\3\e33a6bc3c3db1f16f571736a6b80850b7b3ef758
 M
 agenda/agenda_data/.gitignore,2\3\230b3bd2469a69614534e31a7b81e83e1568e80c
 B
@@ -60,28 +41,10 @@ U
 %agenda/agenda_data/consumer-rules.pro,d\4\d418652843b0dbd1b3b285a76417d19d03358dee
 J
 core_ui/consumer-rules.pro,4\2\42fe34c389a9341cde4c96a6bbacdd7cf5fb8fe8
-R
-"buildSrc/src/main/java/AndroidX.kt,5\b\5b6514c230c5fecbcf2cb3a57826f66cc28d9b36
 U
 %agenda/agenda_data/proguard-rules.pro,8\5\85cba97903b2569e2f93f34723365425b3123e8a
 J
 core_ui/proguard-rules.pro,5\e\5ec2c2e3a3a26aa1321e245fa5c8e11fbe0f09a7
-N
-buildSrc/src/main/java/Coil.kt,f\c\fcee0c9dd9b953942fbe416e05fdafa79f2a7cc2
-T
-$buildSrc/src/main/java/Coroutines.kt,4\c\4c8e3f0be73533463237edf3390d0e3ef9e7e901
-Q
-!buildSrc/src/main/java/Compose.kt,d\0\d0ccf9538eee5aa412ee83d4a2133a6f31f5b98e
-P
- buildSrc/src/main/java/Google.kt,f\0\f0fc9040d2e8d50946b86097caff15f8ea9cac66
-T
-$buildSrc/src/main/java/DaggerHilt.kt,6\e\6ee1e6e475caaaebd3acb4f45934ec34a763cf0c
-P
- buildSrc/src/main/java/Kotlin.kt,d\c\dcc2864be7131e2d7177579fd7f5053c7cd2c9a0
-W
-'buildSrc/src/main/java/ProjectConfig.kt,e\5\e5f1e6ec4b7a152d03df0415f85dba0bfaeb5c2a
-O
-buildSrc/src/main/java/Moshi.kt,9\9\999097668e2b294f848212fe5aa23f2ea430f84b
 —
 g.idea/modules/onboardingAuth/onboardingAuthData/Tasky.onboardingAuth.onboardingAuthData.androidTest.iml,4\a\4a706bac5ee5cd28bc638f5893f6e9c031955283
 ”
@@ -104,14 +67,6 @@ h.idea/modules/onboardingAuth/onboardingAuthDomain/Tasky.onboardingAuth.onboardi
 t.idea/modules/onboardingAuth/onboardingAuthPresentation/Tasky.onboardingAuth.onboardingAuthPresentation.unitTest.iml,e\9\e9a8d5f93951131509855632a2484dd59acff10f
 §
 w.idea/modules/onboardingAuth/onboardingAuthPresentation/Tasky.onboardingAuth.onboardingAuthPresentation.androidTest.iml,a\5\a51b929180ff1e692c3e28b2b583ced5228bca92
-E
-compose-module.gradle,3\2\3262c97bae96b480e15c9a7b5d2d4b2157b8dec6
-N
-buildSrc/src/main/java/Room.kt,5\3\5391cbe6fc8210d412a8e2e4d863c63315459ea1
-R
-"buildSrc/src/main/java/Retrofit.kt,6\c\6ccbf65f6ff4383cfd2f83fe446d5a681ff7187b
-Q
-!buildSrc/src/main/java/Testing.kt,3\b\3b29b036070306646d6e9146faba75d9cf46a956
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 q
@@ -134,12 +89,6 @@ y
 Ionboarding_auth/onboarding_auth_presentation/src/main/AndroidManifest.xml,6\b\6b2c0cdfa6690ee7762d322d6704438de95f5b0f
 [
 +agenda/agenda_presentation/build.gradle.kts,f\3\f30999e4a263b906537aa8d0d679feda3d64c024
-I
-buildSrc/build.gradle.kts,d\9\d90b697280fada81e52ec92d24725920f1cb087b
-E
-core/build.gradle.kts,d\7\d72846b7b418aa17de692d1ccf924c738cf8dbe5
-H
-core_ui/build.gradle.kts,e\7\e7faa6169af6f9cc73376752ed65b4e92a05cd80
 e
 5onboarding_auth/onboarding_auth_data/build.gradle.kts,5\c\5cb07d6658694275ba27ef138363a661f0b43c47
 g

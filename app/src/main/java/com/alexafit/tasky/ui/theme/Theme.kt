@@ -5,26 +5,33 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.alexafit.core_ui.DarkGray2
+import com.alexafit.core_ui.LightBlue
+import com.alexafit.core_ui.LightGray
+import com.alexafit.core_ui.MediumGray
+import com.alexafit.core_ui.SuccessGreen
+import com.alexafit.core_ui.TaskyGreen
+import com.alexafit.core_ui.Typography
+import com.alexafit.core_ui.White
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = TaskyGreen,
+    primaryVariant = SuccessGreen,
+    secondary = LightGray,
+    secondaryVariant = MediumGray,
+    background = DarkGray2,
+    surface = White,
+    onSecondary = LightBlue
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    primary = TaskyGreen,
+    primaryVariant = SuccessGreen,
+    secondary = LightGray,
+    secondaryVariant = MediumGray,
+    background = White,
+    surface = DarkGray2,
+    onSecondary = LightBlue
 )
 
 @Composable
