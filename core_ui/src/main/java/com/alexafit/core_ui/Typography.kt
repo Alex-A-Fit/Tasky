@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.sp
 object Inter {
     val bold: FontFamily =
         FontFamily(
-            Font(R.font.inter_regular, FontWeight.Normal)
+            Font(R.font.inter_bold, FontWeight.Bold)
         )
     val semiBold: FontFamily =
         FontFamily(

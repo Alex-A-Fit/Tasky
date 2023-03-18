@@ -1,4 +1,4 @@
-package com.alexafit.core_ui.components
+package com.alexafit.core_ui.components.buttons
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.alexafit.core_ui.LocalSpacing
-import com.alexafit.core_ui.LocalTypography
 
 @Composable
 fun TextActionButton(
     text: String,
+    textStyle: TextStyle?,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    textStyle: TextStyle?,
     onClick: () -> Unit,
 ){
     Button(
@@ -28,7 +27,7 @@ fun TextActionButton(
     ) {
         Text(
             text = text,
-            style = textStyle ?: LocalTypography.current.body1,
+            style = textStyle ?: MaterialTheme.typography.body1,
             color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(LocalSpacing.current.spaceSmall)
         )
