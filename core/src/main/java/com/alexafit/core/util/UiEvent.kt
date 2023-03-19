@@ -1,6 +1,6 @@
 package com.alexafit.core.util
 
-sealed class UiEvent{
+sealed class UiEvent {
     object Success : UiEvent()
-    data class ShowSnackbar(val message: UiText): UiEvent()
+    data class ShowSnackbar(val message: UiText) : UiEvent()
 }
