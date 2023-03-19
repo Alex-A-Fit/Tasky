@@ -5,14 +5,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.alexafit.core_ui.DarkGray2
-import com.alexafit.core_ui.LightBlue
-import com.alexafit.core_ui.LightGray
-import com.alexafit.core_ui.MediumGray
-import com.alexafit.core_ui.SuccessGreen
-import com.alexafit.core_ui.TaskyGreen
-import com.alexafit.core_ui.Typography
-import com.alexafit.core_ui.White
+import com.alexafit.coreui.DarkGray2
+import com.alexafit.coreui.LightBlue
+import com.alexafit.coreui.LightGray
+import com.alexafit.coreui.MediumGray
+import com.alexafit.coreui.SuccessGreen
+import com.alexafit.coreui.TaskyGreen
+import com.alexafit.coreui.Typography
+import com.alexafit.coreui.White
 
 private val DarkColorPalette = darkColors(
     primary = TaskyGreen,
