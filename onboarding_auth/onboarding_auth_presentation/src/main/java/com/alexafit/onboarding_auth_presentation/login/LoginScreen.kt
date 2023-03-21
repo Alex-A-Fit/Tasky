@@ -1,11 +1,13 @@
-package com.alexafit.onboardingauthpresentation.login
+package com.alexafit.onboarding_auth_presentation.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -14,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -25,7 +26,7 @@ import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.components.buttons.TextActionButton
 import com.alexafit.coreui.components.textfield.TextField
 import com.alexafit.onboarding_auth_presentation.R
-import com.alexafit.onboardingauthpresentation.login.event.LoginEvent
+import com.alexafit.onboarding_auth_presentation.login.event.LoginEvent
 
 @Composable
 fun LoginScreen(
@@ -57,31 +58,37 @@ fun LoginScreen(
         Text(
             text = stringResource(id = R.string.title_welcome_back),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h1
+            style = MaterialTheme.typography.h1,
+            modifier = Modifier
+                .padding(vertical = spacing.spaceMedium)
         )
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.surface)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = spacing.spaceMedium,
-                        topEnd = spacing.spaceMedium
+                .background(
+                    MaterialTheme.colors.surface,
+                    shape = RoundedCornerShape(
+                        topStart = spacing.spaceLarge,
+                        topEnd = spacing.spaceLarge
                     )
+                )
+                .padding(
+                    all = spacing.spaceSmall
                 ),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Need to finish designing
+            Spacer(modifier = Modifier.height(spacing.spaceLarge))
             TextField(
                 text = "",
-                hint = "Text Field 1",
+                hint = stringResource(id = R.string.text_field_hint_email),
                 keyboardImeAction = ImeAction.Next,
                 iconVector = null,
                 iconVectorDescription = null,
                 modifier = Modifier,
-                isHintVisible = false,
+                isHintVisible = true,
                 isIconClickable = false,
                 onValueChange = {},
                 iconOnClick = {},
@@ -89,19 +96,25 @@ fun LoginScreen(
             )
             TextField(
                 text = "",
-                hint = "Text Field 2",
+                hint = stringResource(id = R.string.text_field_hint_password),
                 keyboardImeAction = ImeAction.Next,
                 iconVector = null,
                 iconVectorDescription = null,
                 modifier = Modifier,
-                isHintVisible = false,
+                isHintVisible = true,
                 isIconClickable = false,
                 onValueChange = {},
                 iconOnClick = {},
                 onFocusChanged = {}
             )
 
-            TextActionButton(text = "Action Button", textStyle = null) {
+            TextActionButton(
+                text = stringResource(id = R.string.text_btn_log_in),
+                textStyle = MaterialTheme.typography.subtitle2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = spacing.spaceExtraSmall)
+            ) {
                 // needs action implemented
             }
         }
