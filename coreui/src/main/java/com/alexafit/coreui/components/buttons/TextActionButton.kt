@@ -14,7 +14,7 @@ import com.alexafit.coreui.LocalSpacing
 @Composable
 fun TextActionButton(
     text: String,
-    textStyle: TextStyle?,
+    textStyle: TextStyle,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     onClick: () -> Unit
@@ -27,7 +27,7 @@ fun TextActionButton(
     ) {
         Text(
             text = text,
-            style = textStyle ?: MaterialTheme.typography.body1,
+            style = textStyle,
             color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(LocalSpacing.current.spaceSmall)
         )

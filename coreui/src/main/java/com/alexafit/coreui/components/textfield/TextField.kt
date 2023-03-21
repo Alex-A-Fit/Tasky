@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.alexafit.core_ui.R
+import com.alexafit.coreui.R
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.components.buttons.IconActionButton
 

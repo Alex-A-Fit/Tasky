@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alexafit.onboardingauthpresentation.login.LoginScreen
-import com.alexafit.onboardingauthpresentation.login.event.LoginEvent
+import com.alexafit.onboarding_auth_presentation.login.LoginScreen
+import com.alexafit.onboarding_auth_presentation.login.event.LoginEvent
 import com.alexafit.tasky.navigation.Route
 import com.alexafit.tasky.ui.theme.TaskyTheme
 import dagger.hilt.android.AndroidEntryPoint
