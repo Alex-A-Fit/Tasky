@@ -5,7 +5,7 @@
     <string name="text_btn_log_in">LOG IN</string>
     <string name="text_field_hint_email">Email address</string>
     <string name="text_field_hint_password">Password</string>
-    <string name="text_no_account">DON\'T HAVE AN ACCOUNT?</string>
+    <string name="text_no_account">DON\'T HAVE AN ACCOUNT?&#160;</string>
     <string name="text_sign_up">SIGN UP</string>
     <string name="content_desc_image_vector">This is an image vector</string>
 </resources>

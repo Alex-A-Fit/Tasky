@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.alexafit.coreui.R
 import com.alexafit.coreui.LocalSpacing
+import com.alexafit.coreui.R
 import com.alexafit.coreui.components.buttons.IconActionButton
 
 @Composable
@@ -61,7 +61,7 @@ fun TextField(
                     elevation = spacing.shadowSmall,
                     shape = RoundedCornerShape(spacing.cornerShapeMedium)
                 )
-                .background(MaterialTheme.colors.secondary)
+                .background(MaterialTheme.colors.secondaryVariant)
                 .fillMaxWidth()
                 .padding(all = spacing.spaceMedium)
                 .onFocusChanged { onFocusChanged(it) }
@@ -71,7 +71,7 @@ fun TextField(
                 text = hint,
                 style = MaterialTheme.typography.body1,
                 fontWeight = FontWeight.Light,
-                color = MaterialTheme.colors.secondaryVariant,
+                color = MaterialTheme.colors.onSurface,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = spacing.spaceMedium)
