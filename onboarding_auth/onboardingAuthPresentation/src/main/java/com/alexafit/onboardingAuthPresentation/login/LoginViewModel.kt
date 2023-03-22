@@ -1,8 +1,8 @@
-package com.alexafit.onboarding_auth_presentation.login
+package com.alexafit.onboardingAuthPresentation.login
 
 import androidx.lifecycle.ViewModel
 import com.alexafit.core.util.UiEvent
-import com.alexafit.onboarding_auth_presentation.login.event.LoginEvent
+import com.alexafit.onboardingAuthPresentation.login.event.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
