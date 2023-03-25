@@ -5,15 +5,17 @@ import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 
 @Composable
 fun IconActionButton(
-    imageVector: ImageVector,
+    image: Painter,
     contentDescription: Int,
     shapeSpacing: Dp,
+    iconTint: Color,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     onClick: () -> Unit
@@ -24,6 +26,11 @@ fun IconActionButton(
         enabled = isEnabled,
         shape = RoundedCornerShape(shapeSpacing)
     ) {
-        Icon(imageVector = imageVector, contentDescription = stringResource(id = contentDescription))
+        Icon(
+            painter = image,
+            contentDescription = stringResource(id = contentDescription),
+            tint = iconTint,
+            modifier = modifier
+        )
     }
 }

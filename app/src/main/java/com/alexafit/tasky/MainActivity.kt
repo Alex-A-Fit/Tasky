@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                         composable(Route.LOGIN) {
                             LoginScreen(
                                 scaffoldState = scaffoldState,
-                                onEventClick = { event ->
+                                onEvent = { event ->
                                     when (event) {
                                         LoginEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
                                         LoginEvent.Register -> navController.navigate(Route.REGISTER)
