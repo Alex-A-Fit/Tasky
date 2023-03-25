@@ -1,4 +1,4 @@
-package com.alexafit.onboarding_auth_presentation.login.event
+package com.alexafit.onboardingAuthPresentation.login.event
 
 sealed interface LoginEvent {
     object Register : LoginEvent

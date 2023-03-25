@@ -1,4 +1,4 @@
-package com.alexafit.onboarding_auth_presentation
+package com.alexafit.onboardingAuthPresentation
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
