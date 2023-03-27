@@ -5,31 +5,36 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alexafit.core.util.UiEvent
 import com.alexafit.coreui.LightBlue
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.SuccessGreen
@@ -37,26 +42,35 @@ import com.alexafit.coreui.components.buttons.TextActionButton
 import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.login.event.LoginEvent
+import com.alexafit.onboardingAuthPresentation.login.event.LoginNavigationEvent
+import com.alexafit.onboardingAuthPresentation.login.event.LoginUiEvent
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     scaffoldState: ScaffoldState,
-    onEvent: (LoginEvent) -> Unit,
+    onEvent: (LoginNavigationEvent) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val textVisibility = remember {
-        mutableStateOf(true)
-    }
     val spacing = LocalSpacing.current
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> onEvent(LoginEvent.Login)
-                is UiEvent.ShowSnackbar -> {
+                is LoginUiEvent.LoginSuccess -> {
+                    keyboardController?.hide()
+                    onEvent(LoginNavigationEvent.Login)
+                }
+                is LoginUiEvent.ShowSnackbar -> {
+                    keyboardController?.hide()
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
                     )
+                }
+                is LoginUiEvent.Register -> {
+                    keyboardController?.hide()
+                    onEvent(LoginNavigationEvent.Register)
                 }
             }
         }
@@ -98,36 +112,99 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 /**
-                 * Need to finish TextField api logic and on focus change logic
+                 * Need to finish TextField api login logic
                  */
                 Spacer(modifier = Modifier.height(spacing.spaceSmall))
                 TextFieldWithIcon(
-                    text = viewModel.emailAddress,
-                    hint = stringResource(id = R.string.text_field_hint_email),
-                    keyboardImeAction = ImeAction.Next,
+                    text = viewModel.loginState.emailAddress,
+                    keyboardImeAction = if (viewModel.loginState.validPassword) ImeAction.Done else ImeAction.Next,
                     keyboardType = KeyboardType.Email,
                     modifier = Modifier,
-                    onValueChange = viewModel::onEmailAddressEnter,
-                    onFocusChanged = {},
-                    iconImage = if (viewModel.validEmailAddress) R.drawable.baseline_check_24 else null,
-                    iconContentDescription = R.string.content_desc_image_vector,
-                    iconTint = SuccessGreen,
-                    iconOnClick = {}
-                )
+                    onKeyboardActionPressed = {
+                        if (viewModel.loginState.validPassword) {
+                            keyboardController?.hide()
+                            viewModel.onEvent(LoginEvent.Login)
+                        }
+                    },
+                    onValueChange = {
+                        viewModel.onEvent(LoginEvent.OnEmailAddressEnter(it))
+                    },
+                    onFocusChanged = { viewModel.onEvent(LoginEvent.OnEmailFocusChange(it.isFocused)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.text_field_hint_email),
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                        )
+                    }
+                ) {
+                    if (viewModel.loginState.validEmailAddress) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_check_24),
+                            contentDescription = stringResource(
+                                id = R.string.content_desc_image_vector
+                            ),
+                            tint = SuccessGreen,
+                            modifier = Modifier
+                                .height(IntrinsicSize.Min)
+                                .width(IntrinsicSize.Min)
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
                 TextFieldWithIcon(
-                    text = viewModel.password,
-                    hint = stringResource(id = R.string.text_field_hint_password),
-                    keyboardImeAction = ImeAction.Next,
+                    text = viewModel.loginState.password,
+                    keyboardImeAction = if (viewModel.loginState.validEmailAddress) ImeAction.Done else ImeAction.Next,
                     keyboardType = KeyboardType.Password,
                     modifier = Modifier,
-                    iconImage = if (textVisibility.value) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24,
-                    iconOnClick = { textVisibility.value = !textVisibility.value },
-                    iconContentDescription = R.string.content_desc_image_vector,
-                    visualTransformation = if (textVisibility.value) VisualTransformation.None else PasswordVisualTransformation('●'),
-                    onValueChange = viewModel::onPasswordEnter,
-                    onFocusChanged = {}
-                )
+                    visualTransformation = if (viewModel.loginState.isPasswordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation(
+                            '●'
+                        )
+                    },
+                    onKeyboardActionPressed = {
+                        if (viewModel.loginState.validEmailAddress) {
+                            keyboardController?.hide()
+                            viewModel.onEvent(LoginEvent.Login)
+                        }
+                    },
+                    onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordEnter(it)) },
+                    onFocusChanged = { viewModel.onEvent(LoginEvent.OnPasswordFocusChange(it.isFocused)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.text_field_hint_password),
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                        )
+                    }
+                ) {
+                    IconButton(
+                        onClick = { viewModel.onEvent(LoginEvent.OnPasswordIconClicked(viewModel.loginState.isPasswordVisible)) },
+                        modifier = Modifier
+                            .height(IntrinsicSize.Min)
+                            .width(IntrinsicSize.Min)
+                    ) {
+                        Icon(
+                            painter = if (viewModel.loginState.isPasswordVisible) {
+                                painterResource(
+                                    R.drawable.baseline_visibility_24
+                                )
+                            } else {
+                                painterResource(R.drawable.baseline_visibility_off_24)
+                            },
+                            contentDescription = stringResource(
+                                id = R.string.content_desc_image_vector
+                            ),
+                            modifier = Modifier
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
                 TextActionButton(
                     text = stringResource(id = R.string.text_btn_log_in),
@@ -156,7 +233,7 @@ fun LoginScreen(
                 text = stringResource(id = R.string.text_sign_up),
                 color = LightBlue,
                 modifier = Modifier.clickable {
-                    onEvent(LoginEvent.Register)
+                    onEvent(LoginNavigationEvent.Register)
                 }
             )
         }

@@ -1,28 +1,36 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-class ValidatePassword {
+import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidatePasswordResult
 
-    operator fun invoke(password: String): Pair<String, Boolean> {
-        return when (password.isBlank()) {
-            true -> Pair(password.trim(), false)
-            false -> {
-                val trimmedPassword = password.trimEnd()
-                trimmedPassword.isPasswordValid()
-            }
+class ValidatePassword {
+    operator fun invoke(password: String): ValidatePasswordResult {
+        return if (password.isBlank()) {
+            ValidatePasswordResult(
+                passwordResult = password.trim(),
+                validPassword = false
+            )
+        } else {
+            val trimmedPassword = password.trimEnd()
+            trimmedPassword.isPasswordValid()
         }
     }
+}
 
-    private fun String.isPasswordValid(): Pair<String, Boolean> {
-        return if (this.length >= 9) {
-            val hasLowercaseLetter = this.any { it.isLowerCase() }
-            val hasUppercaseLetter = this.any { it.isUpperCase() }
-            val hasDigit = this.any { it.isDigit() }
-            val hasNoSpecialCharacter = this.all { it.isLetterOrDigit() }
+private fun String.isPasswordValid(): ValidatePasswordResult {
+    return if (this.length >= 9) {
+        val hasLowercaseLetter = this.any { it.isLowerCase() }
+        val hasUppercaseLetter = this.any { it.isUpperCase() }
+        val hasDigit = this.any { it.isDigit() }
 
-            val isValidPassword = (hasLowercaseLetter && hasUppercaseLetter && hasDigit && hasNoSpecialCharacter)
-            Pair(this, isValidPassword)
-        } else {
-            Pair(this, false)
-        }
+        val isValidPassword = (hasLowercaseLetter && hasUppercaseLetter && hasDigit)
+        ValidatePasswordResult(
+            passwordResult = this,
+            validPassword = isValidPassword
+        )
+    } else {
+        ValidatePasswordResult(
+            passwordResult = this,
+            validPassword = false
+        )
     }
 }
