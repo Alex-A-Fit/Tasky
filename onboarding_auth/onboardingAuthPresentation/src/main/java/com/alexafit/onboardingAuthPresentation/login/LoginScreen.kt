@@ -17,33 +17,42 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alexafit.core.util.UiEvent
 import com.alexafit.coreui.LightBlue
 import com.alexafit.coreui.LocalSpacing
+import com.alexafit.coreui.SuccessGreen
 import com.alexafit.coreui.components.buttons.TextActionButton
-import com.alexafit.coreui.components.textfield.TextField
+import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.login.event.LoginEvent
 
 @Composable
 fun LoginScreen(
     scaffoldState: ScaffoldState,
-    onEventClick: (LoginEvent) -> Unit,
+    onEvent: (LoginEvent) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val textVisibility = remember {
+        mutableStateOf(true)
+    }
     val spacing = LocalSpacing.current
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> onEventClick(LoginEvent.Login)
+                is UiEvent.Success -> onEvent(LoginEvent.Login)
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
@@ -88,33 +97,35 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Need to finish TextField Logic and responsive design
+                /**
+                 * Need to finish TextField api logic and on focus change logic
+                 */
                 Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                TextField(
-                    text = "",
+                TextFieldWithIcon(
+                    text = viewModel.emailAddress,
                     hint = stringResource(id = R.string.text_field_hint_email),
                     keyboardImeAction = ImeAction.Next,
-                    iconVector = null,
-                    iconVectorDescription = null,
+                    keyboardType = KeyboardType.Email,
                     modifier = Modifier,
-                    isHintVisible = true,
-                    isIconClickable = false,
-                    onValueChange = {},
-                    iconOnClick = {},
-                    onFocusChanged = {}
+                    onValueChange = viewModel::onEmailAddressEnter,
+                    onFocusChanged = {},
+                    iconImage = if (viewModel.validEmailAddress) R.drawable.baseline_check_24 else null,
+                    iconContentDescription = R.string.content_desc_image_vector,
+                    iconTint = SuccessGreen,
+                    iconOnClick = {}
                 )
-                Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                TextField(
-                    text = "",
+                Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                TextFieldWithIcon(
+                    text = viewModel.password,
                     hint = stringResource(id = R.string.text_field_hint_password),
                     keyboardImeAction = ImeAction.Next,
-                    iconVector = null,
-                    iconVectorDescription = null,
+                    keyboardType = KeyboardType.Password,
                     modifier = Modifier,
-                    isHintVisible = true,
-                    isIconClickable = false,
-                    onValueChange = {},
-                    iconOnClick = {},
+                    iconImage = if (textVisibility.value) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24,
+                    iconOnClick = { textVisibility.value = !textVisibility.value },
+                    iconContentDescription = R.string.content_desc_image_vector,
+                    visualTransformation = if (textVisibility.value) VisualTransformation.None else PasswordVisualTransformation('●'),
+                    onValueChange = viewModel::onPasswordEnter,
                     onFocusChanged = {}
                 )
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
@@ -131,12 +142,8 @@ fun LoginScreen(
         }
         Row(
             modifier = Modifier
-                .background(
-                    MaterialTheme.colors.surface
-                )
-                .padding(
-                    all = spacing.spaceLarge
-                )
+                .background(color = MaterialTheme.colors.surface)
+                .padding(all = spacing.spaceLarge)
                 .align(Alignment.BottomCenter),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.Center
@@ -149,7 +156,7 @@ fun LoginScreen(
                 text = stringResource(id = R.string.text_sign_up),
                 color = LightBlue,
                 modifier = Modifier.clickable {
-                    onEventClick(LoginEvent.Register)
+                    onEvent(LoginEvent.Register)
                 }
             )
         }
