@@ -106,7 +106,7 @@ fun LoginScreen(
                     )
                     .padding(
                         vertical = spacing.spaceLarge,
-                        horizontal = spacing.spaceSmall
+                        horizontal = spacing.spaceMedium
                     ),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally

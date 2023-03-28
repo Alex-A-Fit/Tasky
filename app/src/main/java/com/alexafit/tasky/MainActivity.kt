@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.alexafit.onboardingAuthPresentation.login.LoginScreen
 import com.alexafit.onboardingAuthPresentation.login.event.LoginNavigationEvent
 import com.alexafit.onboardingAuthPresentation.register.RegisterScreen
+import com.alexafit.onboardingAuthPresentation.register.event.RegisterNavigationEvent
 import com.alexafit.tasky.navigation.Route
 import com.alexafit.tasky.ui.theme.TaskyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,10 +54,10 @@ class MainActivity : ComponentActivity() {
                         composable(Route.REGISTER) {
                             RegisterScreen(
                                 scaffoldState = scaffoldState,
-                                onEventClick = { event ->
+                                onEvent = { event ->
                                     when (event) {
-                                        LoginNavigationEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
-                                        LoginNavigationEvent.Register -> navController.navigate(Route.REGISTER)
+                                        RegisterNavigationEvent.BackToLogin -> navController.navigate(Route.LOGIN)
+                                        RegisterNavigationEvent.Register -> navController.navigate(Route.AGENDA_OVERVIEW)
                                     }
                                 }
 
