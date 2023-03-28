@@ -80,7 +80,7 @@ class LoginViewModel @Inject constructor(
                 is LoginEvent.OnEmailAddressEnter -> {
                     val result = onboardingAuthUseCase.validateEmail(event.emailAddress)
                     loginState = loginState.copy(
-                        emailAddress = result.emailResult,
+                        emailAddress = result.userEmail,
                         validEmailAddress = result.validEmail
                     )
                 }
@@ -103,7 +103,7 @@ class LoginViewModel @Inject constructor(
                 is LoginEvent.OnPasswordEnter -> {
                     val result = onboardingAuthUseCase.validatePassword(event.password)
                     loginState = loginState.copy(
-                        password = result.passwordResult,
+                        password = result.userPassword,
                         validPassword = result.validPassword
                     )
                 }

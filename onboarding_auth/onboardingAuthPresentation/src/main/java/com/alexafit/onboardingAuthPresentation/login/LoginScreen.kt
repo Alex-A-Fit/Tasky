@@ -119,7 +119,7 @@ fun LoginScreen(
                     text = viewModel.loginState.emailAddress,
                     keyboardImeAction = if (viewModel.loginState.validPassword) ImeAction.Done else ImeAction.Next,
                     keyboardType = KeyboardType.Email,
-                    modifier = Modifier,
+                    modifier = Modifier.fillMaxWidth(),
                     onKeyboardActionPressed = {
                         if (viewModel.loginState.validPassword) {
                             keyboardController?.hide()
@@ -158,7 +158,7 @@ fun LoginScreen(
                     text = viewModel.loginState.password,
                     keyboardImeAction = if (viewModel.loginState.validEmailAddress) ImeAction.Done else ImeAction.Next,
                     keyboardType = KeyboardType.Password,
-                    modifier = Modifier,
+                    modifier = Modifier.fillMaxWidth(),
                     visualTransformation = if (viewModel.loginState.isPasswordVisible) {
                         VisualTransformation.None
                     } else {

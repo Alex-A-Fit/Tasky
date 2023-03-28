@@ -1,25 +1,25 @@
 package com.alexafit.onboardingauthdomain.useCase
 
+import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidator
 import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidateEmailResult
+import javax.inject.Inject
 
-class ValidateEmail {
+class ValidateEmail @Inject constructor(
+    private val emailPatternValidator: EmailPatternValidator
+) {
     operator fun invoke(email: String): ValidateEmailResult {
         return if (email.isBlank()) {
             ValidateEmailResult(
-                emailResult = email.trim(),
+                userEmail = email.trim(),
                 validEmail = false
             )
         } else {
             val trimmedEmail = email.trimEnd()
-            trimmedEmail.isEmailValid()
+            val isValid = emailPatternValidator.isValidEmailPattern(trimmedEmail)
+            return ValidateEmailResult(
+                userEmail = trimmedEmail,
+                validEmail = isValid
+            )
         }
     }
-}
-
-private fun String.isEmailValid(): ValidateEmailResult {
-    val isValid = android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
-    return ValidateEmailResult(
-        emailResult = this,
-        validEmail = isValid
-    )
 }

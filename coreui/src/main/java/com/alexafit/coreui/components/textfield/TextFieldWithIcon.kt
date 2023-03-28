@@ -1,7 +1,6 @@
 package com.alexafit.coreui.components.textfield
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,7 +43,6 @@ fun TextFieldWithIcon(
             .background(
                 color = MaterialTheme.colors.secondaryVariant
             )
-            .fillMaxWidth()
             .onFocusChanged { onFocusChanged(it) },
         trailingIcon = icon,
         visualTransformation = visualTransformation,
