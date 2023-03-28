@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.alexafit.onboardingAuthPresentation.login.LoginScreen
-import com.alexafit.onboardingAuthPresentation.login.event.LoginEvent
+import com.alexafit.onboardingAuthPresentation.login.event.LoginNavigationEvent
 import com.alexafit.onboardingAuthPresentation.register.RegisterScreen
 import com.alexafit.tasky.navigation.Route
 import com.alexafit.tasky.ui.theme.TaskyTheme
@@ -43,8 +43,8 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = scaffoldState,
                                 onEvent = { event ->
                                     when (event) {
-                                        LoginEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
-                                        LoginEvent.Register -> navController.navigate(Route.REGISTER)
+                                        LoginNavigationEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
+                                        LoginNavigationEvent.Register -> navController.navigate(Route.REGISTER)
                                     }
                                 }
 
@@ -55,8 +55,8 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = scaffoldState,
                                 onEventClick = { event ->
                                     when (event) {
-                                        LoginEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
-                                        LoginEvent.Register -> navController.navigate(Route.REGISTER)
+                                        LoginNavigationEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
+                                        LoginNavigationEvent.Register -> navController.navigate(Route.REGISTER)
                                     }
                                 }
 

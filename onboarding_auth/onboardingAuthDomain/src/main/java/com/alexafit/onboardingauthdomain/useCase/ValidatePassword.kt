@@ -1,28 +1,21 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-class ValidatePassword {
+import com.alexafit.onboardingauthdata.local.util.passwordvalidator.PasswordPatternValidator
+import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidatePasswordResult
+import javax.inject.Inject
 
-    operator fun invoke(password: String): Pair<String, Boolean> {
-        return when (password.isBlank()) {
-            true -> Pair(password.trim(), false)
-            false -> {
-                val trimmedPassword = password.trimEnd()
-                trimmedPassword.isPasswordValid()
-            }
-        }
-    }
+class ValidatePassword @Inject constructor(
+    private val passwordPatternValidator: PasswordPatternValidator
+) {
+    operator fun invoke(password: String): ValidatePasswordResult {
+        val hasLowercaseLetter = passwordPatternValidator.containsLowercaseLetter(password)
+        val hasUppercaseLetter = passwordPatternValidator.containsUppercaseLetter(password)
+        val hasDigit = passwordPatternValidator.containsDigit(password)
+        val isValidPassword = (hasLowercaseLetter && hasUppercaseLetter && hasDigit)
 
-    private fun String.isPasswordValid(): Pair<String, Boolean> {
-        return if (this.length >= 9) {
-            val hasLowercaseLetter = this.any { it.isLowerCase() }
-            val hasUppercaseLetter = this.any { it.isUpperCase() }
-            val hasDigit = this.any { it.isDigit() }
-            val hasNoSpecialCharacter = this.all { it.isLetterOrDigit() }
-
-            val isValidPassword = (hasLowercaseLetter && hasUppercaseLetter && hasDigit && hasNoSpecialCharacter)
-            Pair(this, isValidPassword)
-        } else {
-            Pair(this, false)
-        }
+        return ValidatePasswordResult(
+            userPassword = password,
+            validPassword = isValidPassword
+        )
     }
 }
