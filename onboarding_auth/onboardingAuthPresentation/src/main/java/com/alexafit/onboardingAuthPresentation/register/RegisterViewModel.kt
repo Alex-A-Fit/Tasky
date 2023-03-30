@@ -32,7 +32,7 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (event) {
                 RegisterUserEvent.NavigateToAgenda -> {
-                    if (registerState.validPassword && registerState.validEmailAddress) {
+                    if (registerState.validPassword && registerState.validEmailAddress && registerState.validName) {
                         /**
                          * make api call to login and determine if login is successFul
                          */
@@ -41,6 +41,13 @@ class RegisterViewModel @Inject constructor(
                          * Snackbar in place for error handling at the moment. Will discuss error handling in the future
                          */
                         when {
+                            !registerState.validEmailAddress && !registerState.validPassword && !registerState.validName -> {
+                                _uiEvent.send(
+                                    UiEvent.ShowSnackbar(
+                                        UiText.StringResource(R.string.text_error_invalid_email_password_and_name)
+                                    )
+                                )
+                            }
                             !registerState.validEmailAddress && !registerState.validPassword -> {
                                 _uiEvent.send(
                                     UiEvent.ShowSnackbar(
@@ -62,10 +69,17 @@ class RegisterViewModel @Inject constructor(
                                     )
                                 )
                             }
+                            !registerState.validName -> {
+                                _uiEvent.send(
+                                    UiEvent.ShowSnackbar(
+                                        UiText.StringResource(R.string.text_error_invalid_name)
+                                    )
+                                )
+                            }
                             else -> {
                                 _uiEvent.send(
                                     UiEvent.ShowSnackbar(
-                                        UiText.StringResource(R.string.text_error_invalid_email_and_password)
+                                        UiText.StringResource(R.string.text_error_invalid_email_password_and_name)
                                     )
                                 )
                             }
