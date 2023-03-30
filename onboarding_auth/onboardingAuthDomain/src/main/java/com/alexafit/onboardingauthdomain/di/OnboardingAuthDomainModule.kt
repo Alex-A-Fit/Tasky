@@ -2,10 +2,13 @@ package com.alexafit.onboardingauthdomain.di
 
 import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidator
 import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidatorImpl
+import com.alexafit.onboardingauthdata.local.util.namevalidator.NameValidator
+import com.alexafit.onboardingauthdata.local.util.namevalidator.NameValidatorImpl
 import com.alexafit.onboardingauthdata.local.util.passwordvalidator.PasswordPatternValidator
 import com.alexafit.onboardingauthdata.local.util.passwordvalidator.PasswordPatternValidatorImpl
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import com.alexafit.onboardingauthdomain.useCase.ValidateEmail
+import com.alexafit.onboardingauthdomain.useCase.ValidateName
 import com.alexafit.onboardingauthdomain.useCase.ValidatePassword
 import dagger.Module
 import dagger.Provides
@@ -21,11 +24,13 @@ object OnboardingAuthDomainModule {
     @Provides
     fun provideOnboardingAuthUseCase(
         emailPatternValidator: EmailPatternValidator,
-        passwordPatternValidator: PasswordPatternValidator
+        passwordPatternValidator: PasswordPatternValidator,
+        nameValidator: NameValidator
     ): OnboardingAuthUseCase {
         return OnboardingAuthUseCase(
             validateEmail = ValidateEmail(emailPatternValidator = emailPatternValidator),
-            validatePassword = ValidatePassword(passwordPatternValidator = passwordPatternValidator)
+            validatePassword = ValidatePassword(passwordPatternValidator = passwordPatternValidator),
+            validateName = ValidateName(nameValidator = nameValidator)
         )
     }
 
@@ -40,4 +45,10 @@ object OnboardingAuthDomainModule {
     fun providesPasswordValidator(
         passwordPatternValidatorImpl: PasswordPatternValidatorImpl
     ): PasswordPatternValidator = passwordPatternValidatorImpl
+
+    @ViewModelScoped
+    @Provides
+    fun providesNameValidator(
+        nameValidatorImpl: NameValidatorImpl
+    ): NameValidator = nameValidatorImpl
 }
