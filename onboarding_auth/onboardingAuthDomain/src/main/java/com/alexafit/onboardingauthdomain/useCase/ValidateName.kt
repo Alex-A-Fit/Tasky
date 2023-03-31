@@ -1,23 +1,19 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdata.local.util.namevalidator.NameValidator
 import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidateNameResult
 import javax.inject.Inject
 
-class ValidateName @Inject constructor(
-    private val nameValidator: NameValidator
-) {
+class ValidateName @Inject constructor() {
     operator fun invoke(name: String): ValidateNameResult {
-        val isValidName = nameValidator.isValidName(name)
         return if (name.isBlank()) {
             ValidateNameResult(
                 userName = name.trim(),
-                isValidName
+                validName = ( name.length in 4..50 )
             )
         } else {
             ValidateNameResult(
                 userName = name,
-                isValidName
+                validName = ( name.length in 4..50 )
             )
         }
     }

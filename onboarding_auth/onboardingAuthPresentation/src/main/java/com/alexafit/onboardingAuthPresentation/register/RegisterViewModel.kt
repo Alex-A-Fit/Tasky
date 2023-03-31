@@ -11,7 +11,6 @@ import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -29,7 +28,7 @@ class RegisterViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: RegisterUserEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (event) {
                 RegisterUserEvent.NavigateToAgenda -> {
                     if (registerState.validPassword && registerState.validEmailAddress && registerState.validName) {
