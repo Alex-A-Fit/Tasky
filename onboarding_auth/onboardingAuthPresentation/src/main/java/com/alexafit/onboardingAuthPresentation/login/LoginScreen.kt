@@ -35,21 +35,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alexafit.core.util.UiEvent
 import com.alexafit.coreui.LightBlue
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.SuccessGreen
 import com.alexafit.coreui.components.buttons.TextActionButton
 import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
-import com.alexafit.onboardingAuthPresentation.login.event.LoginEvent
-import com.alexafit.onboardingAuthPresentation.login.event.LoginNavigationEvent
-import com.alexafit.onboardingAuthPresentation.login.event.LoginUiEvent
+import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
+import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     scaffoldState: ScaffoldState,
-    onEvent: (LoginNavigationEvent) -> Unit,
+    onEvent: (NavigationEvent) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
@@ -58,19 +58,19 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is LoginUiEvent.LoginSuccess -> {
+                is UiEvent.Success -> {
                     keyboardController?.hide()
-                    onEvent(LoginNavigationEvent.Login)
+                    onEvent(NavigationEvent.NavigateToAgenda)
                 }
-                is LoginUiEvent.ShowSnackbar -> {
+                is UiEvent.ShowSnackbar -> {
                     keyboardController?.hide()
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
                     )
                 }
-                is LoginUiEvent.Register -> {
+                is UiEvent.Navigate -> {
                     keyboardController?.hide()
-                    onEvent(LoginNavigationEvent.Register)
+                    onEvent(NavigationEvent.NavigateToRegister)
                 }
             }
         }
@@ -123,13 +123,13 @@ fun LoginScreen(
                     onKeyboardActionPressed = {
                         if (viewModel.loginState.validPassword) {
                             keyboardController?.hide()
-                            viewModel.onEvent(LoginEvent.Login)
+                            viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
                         }
                     },
                     onValueChange = {
-                        viewModel.onEvent(LoginEvent.OnEmailAddressEnter(it))
+                        viewModel.onEvent(LoginUserEvent.OnEmailAddressEnter(it))
                     },
-                    onFocusChanged = { viewModel.onEvent(LoginEvent.OnEmailFocusChange(it.isFocused)) },
+                    onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnEmailFocusChange(it.isFocused)) },
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.text_field_hint_email),
@@ -169,11 +169,11 @@ fun LoginScreen(
                     onKeyboardActionPressed = {
                         if (viewModel.loginState.validEmailAddress) {
                             keyboardController?.hide()
-                            viewModel.onEvent(LoginEvent.Login)
+                            viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
                         }
                     },
-                    onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordEnter(it)) },
-                    onFocusChanged = { viewModel.onEvent(LoginEvent.OnPasswordFocusChange(it.isFocused)) },
+                    onValueChange = { viewModel.onEvent(LoginUserEvent.OnPasswordEnter(it)) },
+                    onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnPasswordFocusChange(it.isFocused)) },
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.text_field_hint_password),
@@ -185,7 +185,7 @@ fun LoginScreen(
                     }
                 ) {
                     IconButton(
-                        onClick = { viewModel.onEvent(LoginEvent.OnPasswordIconClicked(viewModel.loginState.isPasswordVisible)) },
+                        onClick = { viewModel.onEvent(LoginUserEvent.OnPasswordIconClicked(viewModel.loginState.isPasswordVisible)) },
                         modifier = Modifier
                             .height(IntrinsicSize.Min)
                             .width(IntrinsicSize.Min)
@@ -213,7 +213,7 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .padding(vertical = spacing.spaceExtraSmall)
                 ) {
-                    viewModel.onEvent(LoginEvent.Login)
+                    viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
                 }
             }
         }
@@ -233,7 +233,7 @@ fun LoginScreen(
                 text = stringResource(id = R.string.text_sign_up),
                 color = LightBlue,
                 modifier = Modifier.clickable {
-                    onEvent(LoginNavigationEvent.Register)
+                    onEvent(NavigationEvent.NavigateToRegister)
                 }
             )
         }

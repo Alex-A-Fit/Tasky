@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
 import com.alexafit.onboardingAuthPresentation.login.LoginScreen
-import com.alexafit.onboardingAuthPresentation.login.event.LoginNavigationEvent
 import com.alexafit.onboardingAuthPresentation.register.RegisterScreen
 import com.alexafit.tasky.navigation.Route
 import com.alexafit.tasky.ui.theme.TaskyTheme
@@ -43,8 +43,9 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = scaffoldState,
                                 onEvent = { event ->
                                     when (event) {
-                                        LoginNavigationEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
-                                        LoginNavigationEvent.Register -> navController.navigate(Route.REGISTER)
+                                        NavigationEvent.NavigateToAgenda -> navController.navigate(Route.AGENDA_OVERVIEW)
+                                        NavigationEvent.NavigateToRegister -> navController.navigate(Route.REGISTER)
+                                        NavigationEvent.NavigateToLogin -> Unit
                                     }
                                 }
 
@@ -55,11 +56,11 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = scaffoldState,
                                 onEventClick = { event ->
                                     when (event) {
-                                        LoginNavigationEvent.Login -> navController.navigate(Route.AGENDA_OVERVIEW)
-                                        LoginNavigationEvent.Register -> navController.navigate(Route.REGISTER)
+                                        NavigationEvent.NavigateToAgenda -> navController.navigate(Route.AGENDA_OVERVIEW)
+                                        NavigationEvent.NavigateToLogin -> navController.navigate(Route.LOGIN)
+                                        NavigationEvent.NavigateToRegister -> Unit
                                     }
                                 }
-
                             )
                         }
                     }

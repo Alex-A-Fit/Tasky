@@ -1,4 +1,4 @@
-package com.alexafit.onboardingAuthPresentation.login
+package com.alexafit.onboardingAuthPresentation.register
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,31 +8,30 @@ import androidx.lifecycle.viewModelScope
 import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
-import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
+import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val onboardingAuthUseCase: OnboardingAuthUseCase
 ) : ViewModel() {
 
-    var loginState by mutableStateOf(LoginState())
+    var registerState by mutableStateOf(RegisterState())
         private set
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    fun onEvent(event: LoginUserEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun onEvent(event: RegisterUserEvent) {
+        viewModelScope.launch {
             when (event) {
-                LoginUserEvent.NavigateToAgenda -> {
-                    if (loginState.validPassword && loginState.validEmailAddress) {
+                RegisterUserEvent.NavigateToAgenda -> {
+                    if (registerState.validPassword && registerState.validEmailAddress) {
                         /**
                          * make api call to login and determine if login is successFul
                          */
@@ -41,21 +40,21 @@ class LoginViewModel @Inject constructor(
                          * Snackbar in place for error handling at the moment. Will discuss error handling in the future
                          */
                         when {
-                            !loginState.validEmailAddress && !loginState.validPassword -> {
+                            !registerState.validEmailAddress && !registerState.validPassword -> {
                                 _uiEvent.send(
                                     UiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_and_password)
                                     )
                                 )
                             }
-                            !loginState.validEmailAddress -> {
+                            !registerState.validEmailAddress -> {
                                 _uiEvent.send(
                                     UiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email)
                                     )
                                 )
                             }
-                            !loginState.validPassword -> {
+                            !registerState.validPassword -> {
                                 _uiEvent.send(
                                     UiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_password)
@@ -72,39 +71,50 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-                LoginUserEvent.NavigateToRegister -> {
+                RegisterUserEvent.NavigateToLogin -> {
                     _uiEvent.send(
                         UiEvent.Navigate
                     )
                 }
-                is LoginUserEvent.OnEmailAddressEnter -> {
+                is RegisterUserEvent.OnEmailAddressEnter -> {
                     val result = onboardingAuthUseCase.validateEmail(event.emailAddress)
-                    loginState = loginState.copy(
+                    registerState = registerState.copy(
                         emailAddress = result.userEmail,
                         validEmailAddress = result.validEmail
                     )
                 }
-                is LoginUserEvent.OnEmailFocusChange -> {
-                    loginState = loginState.copy(
-                        isEmailHintVisible = !event.isFocused && loginState.emailAddress.isBlank()
+                is RegisterUserEvent.OnEmailFocusChange -> {
+                    registerState = registerState.copy(
+                        isEmailHintVisible = !event.isFocused && registerState.emailAddress.isBlank()
                     )
                 }
-
-                is LoginUserEvent.OnPasswordFocusChange -> {
-                    loginState = loginState.copy(
-                        isEmailHintVisible = !event.isFocused && loginState.password.isBlank()
+                is RegisterUserEvent.OnPasswordFocusChange -> {
+                    registerState = registerState.copy(
+                        isEmailHintVisible = !event.isFocused && registerState.password.isBlank()
                     )
                 }
-                is LoginUserEvent.OnPasswordIconClicked -> {
-                    loginState = loginState.copy(
+                is RegisterUserEvent.OnPasswordIconClicked -> {
+                    registerState = registerState.copy(
                         isPasswordVisible = !event.isClicked
                     )
                 }
-                is LoginUserEvent.OnPasswordEnter -> {
+                is RegisterUserEvent.OnPasswordEnter -> {
                     val result = onboardingAuthUseCase.validatePassword(event.password)
-                    loginState = loginState.copy(
+                    registerState = registerState.copy(
                         password = result.userPassword,
                         validPassword = result.validPassword
+                    )
+                }
+                is RegisterUserEvent.OnNameEnter -> {
+                    val result = onboardingAuthUseCase.validateName(event.name)
+                    registerState = registerState.copy(
+                        name = result.userName,
+                        validName = result.validName
+                    )
+                }
+                is RegisterUserEvent.OnNameFocusChange -> {
+                    registerState = registerState.copy(
+                        isNameHintVisible = !event.isFocused && registerState.name.isBlank()
                     )
                 }
             }
