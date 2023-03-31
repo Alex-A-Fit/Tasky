@@ -8,12 +8,12 @@ class ValidateName @Inject constructor() {
         return if (name.isBlank()) {
             ValidateNameResult(
                 userName = name.trim(),
-                validName = ( name.length in 4..50 )
+                validName = (name.length in 4..50)
             )
         } else {
             ValidateNameResult(
                 userName = name,
-                validName = ( name.length in 4..50 )
+                validName = (name.length in 4..50)
             )
         }
     }
