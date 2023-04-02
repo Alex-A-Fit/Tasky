@@ -16,7 +16,9 @@ import androidx.compose.ui.window.DialogProperties
 import com.alexafit.coreui.LocalSpacing
 
 @Composable
-fun CircularLoadingDialog() {
+fun CircularLoadingDialog(
+    modifier: Modifier
+) {
     val spacing = LocalSpacing.current
     Dialog(
         onDismissRequest = { },
@@ -24,7 +26,7 @@ fun CircularLoadingDialog() {
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
+            modifier = modifier
                 .background(Color.DarkGray.copy(alpha = 0.5f))
                 .padding(spacing.spaceMedium)
                 .size(spacing.spaceExtraLarge)
@@ -32,7 +34,7 @@ fun CircularLoadingDialog() {
         ) {
             CircularProgressIndicator(
                 color = Color.White,
-                modifier = Modifier
+                modifier = modifier
                     .size(spacing.spaceLarge)
             )
         }

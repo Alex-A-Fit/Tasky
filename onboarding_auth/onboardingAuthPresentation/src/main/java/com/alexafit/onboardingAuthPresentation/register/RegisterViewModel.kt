@@ -9,6 +9,7 @@ import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
+import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -135,31 +136,26 @@ class RegisterViewModel @Inject constructor(
         }
     }
     private fun registerUser() {
+        val user = RegisterUser(
+            fullName = registerState.name,
+            email = registerState.emailAddress,
+            password = registerState.password
+        )
         viewModelScope.launch {
-            _uiEvent.send(
-                UiEvent.Loading(true)
-            )
+            registerState = registerState.copy(isScreenLoading = true)
             onboardingAuthUseCase
-                .registerUser(
-                    fulName = registerState.name,
-                    email = registerState.emailAddress,
-                    password = registerState.password
-                )
+                .registerUserUseCase(user = user)
                 .onSuccess {
                     /**
                      * need to Login User to get auth token
                      */
-                    _uiEvent.send(
-                        UiEvent.Loading(false)
-                    )
+                    registerState = registerState.copy(isScreenLoading = false)
                     _uiEvent.send(
                         UiEvent.Success
                     )
                 }
                 .onFailure {
-                    _uiEvent.send(
-                        UiEvent.Loading(false)
-                    )
+                    registerState = registerState.copy(isScreenLoading = false)
                     _uiEvent.send(
                         UiEvent.ShowSnackbar(
                             UiText

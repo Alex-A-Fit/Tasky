@@ -1,6 +1,6 @@
 package com.alexafit.onboardingauthdata.model.remote
 
-data class Login(
+data class LoginDto(
     val email: String,
     val password: String
 )
