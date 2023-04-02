@@ -21,6 +21,10 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -40,6 +44,7 @@ import com.alexafit.coreui.LightBlue
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.SuccessGreen
 import com.alexafit.coreui.components.buttons.TextActionButton
+import com.alexafit.coreui.components.loading.CircularLoadingDialog
 import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
@@ -55,6 +60,8 @@ fun LoginScreen(
     val spacing = LocalSpacing.current
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    var isLoading by remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -72,9 +79,21 @@ fun LoginScreen(
                     keyboardController?.hide()
                     onEvent(NavigationEvent.NavigateToRegister)
                 }
+                is UiEvent.Loading -> {
+                    keyboardController?.hide()
+                    isLoading = true
+                }
             }
         }
     }
+    /**
+     * Finish involving UI with data layer in another PR
+     */
+    if (isLoading) {
+        CircularLoadingDialog()
+    } else {
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -187,8 +206,6 @@ fun LoginScreen(
                     IconButton(
                         onClick = { viewModel.onEvent(LoginUserEvent.OnPasswordIconClicked(viewModel.loginState.isPasswordVisible)) },
                         modifier = Modifier
-                            .height(IntrinsicSize.Min)
-                            .width(IntrinsicSize.Min)
                     ) {
                         Icon(
                             painter = if (viewModel.loginState.isPasswordVisible) {

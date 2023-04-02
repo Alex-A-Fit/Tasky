@@ -110,4 +110,41 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+    private fun loginUser() {
+        viewModelScope.launch {
+            _uiEvent.send(
+                UiEvent.Loading(true)
+            )
+            onboardingAuthUseCase
+                .loginUser(
+                    email = loginState.emailAddress,
+                    passord = loginState.password
+                )
+                .onSuccess {
+                    /**
+                     * save token in room or datastore for later retrieval
+                     */
+                    _uiEvent.send(
+                        UiEvent.Loading(false)
+                    )
+                    _uiEvent.send(
+                        UiEvent.Success
+                    )
+                }
+                .onFailure {
+                    _uiEvent.send(
+                        UiEvent.Loading(false)
+                    )
+                    _uiEvent.send(
+                        UiEvent.ShowSnackbar(
+                            UiText
+                                .DynamicString(
+                                    "Oops, something went wrong when trying to login. Please try again later."
+                                )
+                        )
+                    )
+                }
+        }
+    }
 }

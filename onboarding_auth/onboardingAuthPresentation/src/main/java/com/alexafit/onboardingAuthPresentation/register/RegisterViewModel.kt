@@ -134,4 +134,41 @@ class RegisterViewModel @Inject constructor(
             }
         }
     }
+    private fun registerUser() {
+        viewModelScope.launch {
+            _uiEvent.send(
+                UiEvent.Loading(true)
+            )
+            onboardingAuthUseCase
+                .registerUser(
+                    fulName = registerState.name,
+                    email = registerState.emailAddress,
+                    password = registerState.password
+                )
+                .onSuccess {
+                    /**
+                     * need to Login User to get auth token
+                     */
+                    _uiEvent.send(
+                        UiEvent.Loading(false)
+                    )
+                    _uiEvent.send(
+                        UiEvent.Success
+                    )
+                }
+                .onFailure {
+                    _uiEvent.send(
+                        UiEvent.Loading(false)
+                    )
+                    _uiEvent.send(
+                        UiEvent.ShowSnackbar(
+                            UiText
+                                .DynamicString(
+                                    "Oops, something went wrong when trying to register your account. Please try again later."
+                                )
+                        )
+                    )
+                }
+        }
+    }
 }
