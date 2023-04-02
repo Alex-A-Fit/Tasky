@@ -2,7 +2,10 @@ package com.alexafit.onboardingauthdomain.di
 
 import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidator
 import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidatorImpl
+import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
+import com.alexafit.onboardingauthdomain.useCase.LoginUserUseCase
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
+import com.alexafit.onboardingauthdomain.useCase.RegisterUserUseCase
 import com.alexafit.onboardingauthdomain.useCase.ValidateEmail
 import com.alexafit.onboardingauthdomain.useCase.ValidateName
 import com.alexafit.onboardingauthdomain.useCase.ValidatePassword
@@ -19,12 +22,15 @@ object OnboardingAuthDomainModule {
     @ViewModelScoped
     @Provides
     fun provideOnboardingAuthUseCase(
-        emailPatternValidator: EmailPatternValidator
+        emailPatternValidator: EmailPatternValidator,
+        repository: OnboardingAuthRepository
     ): OnboardingAuthUseCase {
         return OnboardingAuthUseCase(
             validateEmail = ValidateEmail(emailPatternValidator = emailPatternValidator),
             validatePassword = ValidatePassword(),
-            validateName = ValidateName()
+            validateName = ValidateName(),
+            loginUserUseCase = LoginUserUseCase(repository),
+            registerUserUseCase = RegisterUserUseCase(repository)
         )
     }
 

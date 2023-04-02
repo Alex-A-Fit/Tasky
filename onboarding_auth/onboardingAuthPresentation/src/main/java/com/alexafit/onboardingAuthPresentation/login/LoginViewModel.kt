@@ -9,6 +9,7 @@ import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
+import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -108,6 +109,38 @@ class LoginViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private fun loginUser() {
+        val user = LoginUser(
+            email = loginState.emailAddress,
+            password = loginState.password
+        )
+        viewModelScope.launch {
+            loginState = loginState.copy(isScreenLoading = true)
+            onboardingAuthUseCase
+                .loginUserUseCase(user = user)
+                .onSuccess {
+                    /**
+                     * save token in room or datastore for later retrieval
+                     */
+                    loginState = loginState.copy(isScreenLoading = false)
+                    _uiEvent.send(
+                        UiEvent.Success
+                    )
+                }
+                .onFailure {
+                    loginState = loginState.copy(isScreenLoading = false)
+                    _uiEvent.send(
+                        UiEvent.ShowSnackbar(
+                            UiText
+                                .DynamicString(
+                                    "Oops, something went wrong when trying to login. Please try again later."
+                                )
+                        )
+                    )
+                }
         }
     }
 }

@@ -10,5 +10,6 @@ data class RegisterState(
     var isEmailHintVisible: Boolean = false,
     var isNameHintVisible: Boolean = false,
     var isPasswordHintVisible: Boolean = false,
-    var isPasswordVisible: Boolean = true
+    var isPasswordVisible: Boolean = true,
+    var isScreenLoading: Boolean = false
 )

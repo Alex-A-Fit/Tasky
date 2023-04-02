@@ -1,6 +1,6 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidatePasswordResult
+import com.alexafit.onboardingauthdomain.mapper.ValidatePasswordResult
 import javax.inject.Inject
 
 class ValidatePassword @Inject constructor() {

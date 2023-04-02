@@ -1,6 +1,6 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdomain.model.domain.mapper.ValidateNameResult
+import com.alexafit.onboardingauthdomain.mapper.ValidateNameResult
 import javax.inject.Inject
 
 class ValidateName @Inject constructor() {

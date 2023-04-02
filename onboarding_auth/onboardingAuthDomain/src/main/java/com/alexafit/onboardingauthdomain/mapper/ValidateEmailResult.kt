@@ -1,4 +1,4 @@
-package com.alexafit.onboardingauthdomain.model.domain.mapper
+package com.alexafit.onboardingauthdomain.mapper
 
 data class ValidateEmailResult(
     val userEmail: String = "",
