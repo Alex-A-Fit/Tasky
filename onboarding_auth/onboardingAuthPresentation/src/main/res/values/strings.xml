@@ -4,11 +4,15 @@
     <string name="text_get_started">Create your account</string>
     <string name="text_btn_log_in">LOG IN</string>
     <string name="text_field_hint_email">Email address</string>
+    <string name="text_field_hint_name">Name</string>
     <string name="text_field_hint_password">Password</string>
     <string name="text_no_account">DON\'T HAVE AN ACCOUNT?&#160;</string>
     <string name="text_sign_up">SIGN UP</string>
     <string name="text_error_invalid_email">Not a valid email address</string>
+    <string name="text_error_invalid_name">Not a valid name. Name must be at least 4 characters long and no longer than 50 characters.</string>
     <string name="text_error_invalid_password">Not a valid password. Password must contain one uppercase and lowercase letter, at least one number and be at least 9 characters long</string>
     <string name="text_error_invalid_email_and_password">Both email and password are invalid</string>
+    <string name="text_error_invalid_email_password_and_name">Email, password and name are all invalid</string>
     <string name="content_desc_image_vector">This is an image vector</string>
+    <string name="content_desc_left_chevron">A left chevron to go back to login</string>
 </resources>

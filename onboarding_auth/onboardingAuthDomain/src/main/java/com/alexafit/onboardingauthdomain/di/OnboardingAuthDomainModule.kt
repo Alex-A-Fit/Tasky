@@ -19,7 +19,7 @@ object OnboardingAuthDomainModule {
     @ViewModelScoped
     @Provides
     fun provideOnboardingAuthUseCase(
-        emailPatternValidator: EmailPatternValidator,
+        emailPatternValidator: EmailPatternValidator
     ): OnboardingAuthUseCase {
         return OnboardingAuthUseCase(
             validateEmail = ValidateEmail(emailPatternValidator = emailPatternValidator),
