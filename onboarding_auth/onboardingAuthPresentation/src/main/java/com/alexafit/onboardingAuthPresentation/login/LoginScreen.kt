@@ -77,178 +77,174 @@ fun LoginScreen(
             }
         }
     }
-    /**
-     * Finish involving UI with data layer in another PR
-     */
-    if (viewModel.loginState.isScreenLoading) {
-        CircularLoadingDialog(Modifier)
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (viewModel.loginState.isScreenLoading) {
+                CircularLoadingDialog(Modifier)
+            }
+            Text(
+                text = stringResource(id = R.string.title_welcome_back),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier
+                    .padding(vertical = spacing.spaceLarge)
+            )
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        MaterialTheme.colors.surface,
+                        shape = RoundedCornerShape(
+                            topStart = spacing.spaceLarge,
+                            topEnd = spacing.spaceLarge
+                        )
+                    )
+                    .padding(
+                        vertical = spacing.spaceLarge,
+                        horizontal = spacing.spaceSmall
+                    ),
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(id = R.string.title_welcome_back),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h1,
-                    color = MaterialTheme.colors.onBackground,
-                    modifier = Modifier
-                        .padding(vertical = spacing.spaceLarge)
-                )
-                Spacer(modifier = Modifier.height(spacing.spaceMedium))
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            MaterialTheme.colors.surface,
-                            shape = RoundedCornerShape(
-                                topStart = spacing.spaceLarge,
-                                topEnd = spacing.spaceLarge
-                            )
-                        )
-                        .padding(
-                            vertical = spacing.spaceLarge,
-                            horizontal = spacing.spaceSmall
-                        ),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    /**
-                     * Need to finish TextField api login logic
-                     */
-                    Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                    TextFieldWithIcon(
-                        text = viewModel.loginState.emailAddress,
-                        keyboardImeAction = if (viewModel.loginState.validPassword) ImeAction.Done else ImeAction.Next,
-                        keyboardType = KeyboardType.Email,
-                        modifier = Modifier.fillMaxWidth(),
-                        onKeyboardActionPressed = {
-                            if (viewModel.loginState.validPassword) {
-                                keyboardController?.hide()
-                                viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
-                            }
-                        },
-                        onValueChange = {
-                            viewModel.onEvent(LoginUserEvent.OnEmailAddressEnter(it))
-                        },
-                        onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnEmailFocusChange(it.isFocused)) },
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.text_field_hint_email),
-                                style = MaterialTheme.typography.body1,
-                                fontWeight = FontWeight.Light,
-                                color = MaterialTheme.colors.onSurface,
-                                modifier = Modifier
-                            )
+                /**
+                 * Need to finish TextField api login logic
+                 */
+                Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                TextFieldWithIcon(
+                    text = viewModel.loginState.emailAddress,
+                    keyboardImeAction = if (viewModel.loginState.validPassword) ImeAction.Done else ImeAction.Next,
+                    keyboardType = KeyboardType.Email,
+                    modifier = Modifier.fillMaxWidth(),
+                    onKeyboardActionPressed = {
+                        if (viewModel.loginState.validPassword) {
+                            keyboardController?.hide()
+                            viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
                         }
-                    ) {
-                        if (viewModel.loginState.validEmailAddress) {
-                            Icon(
-                                painter = painterResource(R.drawable.baseline_check_24),
-                                contentDescription = stringResource(
-                                    id = R.string.content_desc_image_vector
-                                ),
-                                tint = SuccessGreen,
-                                modifier = Modifier
-                                    .height(IntrinsicSize.Min)
-                                    .width(IntrinsicSize.Min)
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(spacing.spaceMedium))
-                    TextFieldWithIcon(
-                        text = viewModel.loginState.password,
-                        keyboardImeAction = if (viewModel.loginState.validEmailAddress) ImeAction.Done else ImeAction.Next,
-                        keyboardType = KeyboardType.Password,
-                        modifier = Modifier.fillMaxWidth(),
-                        visualTransformation = if (viewModel.loginState.isPasswordVisible) {
-                            VisualTransformation.None
-                        } else {
-                            PasswordVisualTransformation(
-                                '●'
-                            )
-                        },
-                        onKeyboardActionPressed = {
-                            if (viewModel.loginState.validEmailAddress) {
-                                keyboardController?.hide()
-                                viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
-                            }
-                        },
-                        onValueChange = { viewModel.onEvent(LoginUserEvent.OnPasswordEnter(it)) },
-                        onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnPasswordFocusChange(it.isFocused)) },
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.text_field_hint_password),
-                                style = MaterialTheme.typography.body1,
-                                fontWeight = FontWeight.Light,
-                                color = MaterialTheme.colors.onSurface,
-                                modifier = Modifier
-                            )
-                        }
-                    ) {
-                        IconButton(
-                            onClick = {
-                                viewModel.onEvent(
-                                    LoginUserEvent.OnPasswordIconClicked(
-                                        viewModel.loginState.isPasswordVisible
-                                    )
-                                )
-                            },
+                    },
+                    onValueChange = {
+                        viewModel.onEvent(LoginUserEvent.OnEmailAddressEnter(it))
+                    },
+                    onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnEmailFocusChange(it.isFocused)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.text_field_hint_email),
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colors.onSurface,
                             modifier = Modifier
-                        ) {
-                            Icon(
-                                painter = if (viewModel.loginState.isPasswordVisible) {
-                                    painterResource(
-                                        R.drawable.baseline_visibility_24
-                                    )
-                                } else {
-                                    painterResource(R.drawable.baseline_visibility_off_24)
-                                },
-                                contentDescription = stringResource(
-                                    id = R.string.content_desc_image_vector
-                                ),
-                                modifier = Modifier
-                            )
-                        }
+                        )
                     }
-                    Spacer(modifier = Modifier.height(spacing.spaceMedium))
-                    TextActionButton(
-                        text = stringResource(id = R.string.text_btn_log_in),
-                        textStyle = MaterialTheme.typography.subtitle2,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = spacing.spaceExtraSmall)
-                    ) {
-                        viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
+                ) {
+                    if (viewModel.loginState.validEmailAddress) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_check_24),
+                            contentDescription = stringResource(
+                                id = R.string.content_desc_image_vector
+                            ),
+                            tint = SuccessGreen,
+                            modifier = Modifier
+                                .height(IntrinsicSize.Min)
+                                .width(IntrinsicSize.Min)
+                        )
                     }
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colors.surface)
-                    .padding(all = spacing.spaceLarge)
-                    .align(Alignment.BottomCenter),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.text_no_account),
-                    color = MaterialTheme.colors.onSurface
-                )
-                Text(
-                    text = stringResource(id = R.string.text_sign_up),
-                    color = LightBlue,
-                    modifier = Modifier.clickable {
-                        onEvent(NavigationEvent.NavigateToRegister)
+                Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                TextFieldWithIcon(
+                    text = viewModel.loginState.password,
+                    keyboardImeAction = if (viewModel.loginState.validEmailAddress) ImeAction.Done else ImeAction.Next,
+                    keyboardType = KeyboardType.Password,
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = if (viewModel.loginState.isPasswordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation(
+                            '●'
+                        )
+                    },
+                    onKeyboardActionPressed = {
+                        if (viewModel.loginState.validEmailAddress) {
+                            keyboardController?.hide()
+                            viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
+                        }
+                    },
+                    onValueChange = { viewModel.onEvent(LoginUserEvent.OnPasswordEnter(it)) },
+                    onFocusChanged = { viewModel.onEvent(LoginUserEvent.OnPasswordFocusChange(it.isFocused)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.text_field_hint_password),
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                        )
                     }
-                )
+                ) {
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(
+                                LoginUserEvent.OnPasswordIconClicked(
+                                    viewModel.loginState.isPasswordVisible
+                                )
+                            )
+                        },
+                        modifier = Modifier
+                    ) {
+                        Icon(
+                            painter = if (viewModel.loginState.isPasswordVisible) {
+                                painterResource(
+                                    R.drawable.baseline_visibility_24
+                                )
+                            } else {
+                                painterResource(R.drawable.baseline_visibility_off_24)
+                            },
+                            contentDescription = stringResource(
+                                id = R.string.content_desc_image_vector
+                            ),
+                            modifier = Modifier
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                TextActionButton(
+                    text = stringResource(id = R.string.text_btn_log_in),
+                    textStyle = MaterialTheme.typography.subtitle2,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = spacing.spaceExtraSmall)
+                ) {
+                    viewModel.onEvent(LoginUserEvent.NavigateToAgenda)
+                }
             }
+        }
+        Row(
+            modifier = Modifier
+                .background(color = MaterialTheme.colors.surface)
+                .padding(all = spacing.spaceLarge)
+                .align(Alignment.BottomCenter),
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(id = R.string.text_no_account),
+                color = MaterialTheme.colors.onSurface
+            )
+            Text(
+                text = stringResource(id = R.string.text_sign_up),
+                color = LightBlue,
+                modifier = Modifier.clickable {
+                    onEvent(NavigationEvent.NavigateToRegister)
+                }
+            )
         }
     }
 }
