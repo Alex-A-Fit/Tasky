@@ -6,6 +6,7 @@ import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.useCase.LoginUserUseCase
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import com.alexafit.onboardingauthdomain.useCase.RegisterUserUseCase
+import com.alexafit.onboardingauthdomain.useCase.SetAuthorizationTokenUseCase
 import com.alexafit.onboardingauthdomain.useCase.ValidateEmail
 import com.alexafit.onboardingauthdomain.useCase.ValidateName
 import com.alexafit.onboardingauthdomain.useCase.ValidatePassword
@@ -30,7 +31,8 @@ object OnboardingAuthDomainModule {
             validatePassword = ValidatePassword(),
             validateName = ValidateName(),
             loginUserUseCase = LoginUserUseCase(repository),
-            registerUserUseCase = RegisterUserUseCase(repository)
+            registerUserUseCase = RegisterUserUseCase(repository),
+            setAuthorizationTokenUseCase = SetAuthorizationTokenUseCase(repository)
         )
     }
 

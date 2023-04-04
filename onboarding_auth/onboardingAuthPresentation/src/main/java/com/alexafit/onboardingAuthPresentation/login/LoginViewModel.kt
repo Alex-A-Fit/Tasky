@@ -34,9 +34,7 @@ class LoginViewModel @Inject constructor(
             when (event) {
                 LoginUserEvent.NavigateToAgenda -> {
                     if (loginState.validPassword && loginState.validEmailAddress) {
-                        /**
-                         * make api call to login and determine if login is successFul
-                         */
+                        loginUser()
                     } else {
                         /**
                          * Snackbar in place for error handling at the moment. Will discuss error handling in the future
@@ -122,9 +120,7 @@ class LoginViewModel @Inject constructor(
             onboardingAuthUseCase
                 .loginUserUseCase(user = user)
                 .onSuccess {
-                    /**
-                     * save token in room or datastore for later retrieval
-                     */
+                    onboardingAuthUseCase.setAuthorizationTokenUseCase(it)
                     loginState = loginState.copy(isScreenLoading = false)
                     _uiEvent.send(
                         UiEvent.Success

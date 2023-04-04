@@ -1,6 +1,5 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdata.model.local.Register
 import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.mapper.mapToDto
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
@@ -10,7 +9,7 @@ class RegisterUserUseCase(
 ) {
     suspend operator fun invoke(
         user: RegisterUser
-    ): Result<Register?> {
+    ): Result<String?> {
         return repository.registerUser(
             registerDtoBody = user.mapToDto()
         )

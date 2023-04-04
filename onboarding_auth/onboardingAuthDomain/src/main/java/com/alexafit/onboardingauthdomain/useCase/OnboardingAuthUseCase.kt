@@ -5,5 +5,6 @@ data class OnboardingAuthUseCase(
     val validatePassword: ValidatePassword,
     val validateName: ValidateName,
     val loginUserUseCase: LoginUserUseCase,
-    val registerUserUseCase: RegisterUserUseCase
+    val registerUserUseCase: RegisterUserUseCase,
+    val setAuthorizationTokenUseCase: SetAuthorizationTokenUseCase
 )

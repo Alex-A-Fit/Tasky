@@ -1,5 +1,6 @@
 package com.alexafit.onboardingauthdata.di
 
+import com.alexafit.core.local.datastore.PreferenceStorage
 import com.alexafit.onboardingauthdata.BuildConfig
 import com.alexafit.onboardingauthdata.remote.TaskyApi
 import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
@@ -53,10 +54,12 @@ object OnboardingDataModule {
     @Provides
     @Singleton
     fun provideOnboardingAuthRepository(
-        api: TaskyApi
+        api: TaskyApi,
+        dataStore: PreferenceStorage
     ): OnboardingAuthRepository {
         return OnboardingAuthRepositoryImpl(
-            taskyApi = api
+            taskyApi = api,
+            dataStore = dataStore
         )
     }
 }
