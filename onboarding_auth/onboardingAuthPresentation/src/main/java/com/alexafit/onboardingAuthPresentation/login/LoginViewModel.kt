@@ -10,6 +10,7 @@ import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
+import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val onboardingAuthUseCase: OnboardingAuthUseCase
+    private val onboardingAuthUseCase: OnboardingAuthUseCase,
+    private val onboardingAuthRepository: OnboardingAuthRepository
 ) : ViewModel() {
 
     var loginState by mutableStateOf(LoginState())
@@ -34,9 +36,7 @@ class LoginViewModel @Inject constructor(
             when (event) {
                 LoginUserEvent.NavigateToAgenda -> {
                     if (loginState.validPassword && loginState.validEmailAddress) {
-                        /**
-                         * make api call to login and determine if login is successFul
-                         */
+                        loginUser()
                     } else {
                         /**
                          * Snackbar in place for error handling at the moment. Will discuss error handling in the future
@@ -121,26 +121,36 @@ class LoginViewModel @Inject constructor(
             loginState = loginState.copy(isScreenLoading = true)
             onboardingAuthUseCase
                 .loginUserUseCase(user = user)
-                .onSuccess {
-                    /**
-                     * save token in room or datastore for later retrieval
-                     */
-                    loginState = loginState.copy(isScreenLoading = false)
-                    _uiEvent.send(
-                        UiEvent.Success
-                    )
+                .onSuccess { token ->
+                    if (!token.isNullOrEmpty()) {
+                        setAuthorizationToken(token)
+                        loginState = loginState.copy(isScreenLoading = false)
+                        _uiEvent.send(
+                            UiEvent.Success
+                        )
+                    } else {
+                        loginState = loginState.copy(isScreenLoading = false)
+                        _uiEvent.send(
+                            UiEvent.ShowSnackbar(
+                                UiText.StringResource(R.string.text_error_login_token_missing)
+                            )
+                        )
+                    }
                 }
                 .onFailure {
                     loginState = loginState.copy(isScreenLoading = false)
                     _uiEvent.send(
                         UiEvent.ShowSnackbar(
-                            UiText
-                                .DynamicString(
-                                    "Oops, something went wrong when trying to login. Please try again later."
-                                )
+                            UiText.StringResource(R.string.text_error_login_failure)
                         )
                     )
                 }
+        }
+    }
+
+    private fun setAuthorizationToken(authToken: String) {
+        viewModelScope.launch {
+            onboardingAuthRepository.setDataStoreAuthKey(authToken)
         }
     }
 }

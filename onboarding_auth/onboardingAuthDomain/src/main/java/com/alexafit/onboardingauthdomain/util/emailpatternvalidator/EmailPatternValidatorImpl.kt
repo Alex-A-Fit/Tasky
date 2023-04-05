@@ -1,4 +1,4 @@
-package com.alexafit.onboardingauthdata.local.util.emailpatternvalidator
+package com.alexafit.onboardingauthdomain.util.emailpatternvalidator
 
 import android.util.Patterns
 import javax.inject.Inject

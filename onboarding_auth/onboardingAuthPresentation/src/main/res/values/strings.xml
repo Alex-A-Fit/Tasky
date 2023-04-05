@@ -9,6 +9,8 @@
     <string name="text_no_account">DON\'T HAVE AN ACCOUNT?&#160;</string>
     <string name="text_sign_up">SIGN UP</string>
     <string name="text_error_invalid_email">Not a valid email address</string>
+    <string name="text_error_login_token_missing">Oops, something went wrong when trying to login. Please try again.</string>
+    <string name="text_error_login_failure">Login failed; Username or password is incorrect.</string>
     <string name="text_error_invalid_name">Not a valid name. Name must be at least 4 characters long and no longer than 50 characters.</string>
     <string name="text_error_invalid_password">Not a valid password. Password must contain one uppercase and lowercase letter, at least one number and be at least 9 characters long</string>
     <string name="text_error_invalid_email_and_password">Both email and password are invalid</string>

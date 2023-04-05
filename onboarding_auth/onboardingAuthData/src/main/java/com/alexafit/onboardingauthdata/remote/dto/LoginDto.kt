@@ -1,4 +1,4 @@
-package com.alexafit.onboardingauthdata.model.remote
+package com.alexafit.onboardingauthdata.remote.dto
 
 data class LoginDto(
     val email: String,

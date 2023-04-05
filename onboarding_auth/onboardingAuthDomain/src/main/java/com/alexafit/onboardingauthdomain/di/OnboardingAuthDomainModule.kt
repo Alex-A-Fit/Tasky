@@ -1,14 +1,14 @@
 package com.alexafit.onboardingauthdomain.di
 
-import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidator
-import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidatorImpl
-import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
+import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.useCase.LoginUserUseCase
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import com.alexafit.onboardingauthdomain.useCase.RegisterUserUseCase
 import com.alexafit.onboardingauthdomain.useCase.ValidateEmail
 import com.alexafit.onboardingauthdomain.useCase.ValidateName
 import com.alexafit.onboardingauthdomain.useCase.ValidatePassword
+import com.alexafit.onboardingauthdomain.util.emailpatternvalidator.EmailPatternValidator
+import com.alexafit.onboardingauthdomain.util.emailpatternvalidator.EmailPatternValidatorImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -59,7 +59,6 @@ dependencies {
     implementation(Compose.activityCompose)
 
     implementation(DaggerHilt.hiltAndroid)
-    implementation("androidx.core:core-ktx:1.9.0")
     kapt(DaggerHilt.hiltCompiler)
 
     implementation(project(Modules.core))
@@ -86,6 +85,8 @@ dependencies {
     kapt(Room.roomCompiler)
     implementation(Room.roomKtx)
     implementation(Room.roomRuntime)
+
+    implementation(DataStore.dataStore)
 
     testImplementation(Testing.junit4)
     testImplementation(Testing.junitAndroidExt)

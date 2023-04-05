@@ -1,18 +1,14 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdata.model.local.Register
-import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
-import com.alexafit.onboardingauthdomain.mapper.mapToDto
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
+import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 
 class RegisterUserUseCase(
     private val repository: OnboardingAuthRepository
 ) {
     suspend operator fun invoke(
         user: RegisterUser
-    ): Result<Register?> {
-        return repository.registerUser(
-            registerDtoBody = user.mapToDto()
-        )
+    ): Result<String?> {
+        return repository.registerUser(registerUser = user)
     }
 }

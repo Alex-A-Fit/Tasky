@@ -27,7 +27,7 @@ fun CircularLoadingDialog(
         Box(
             contentAlignment = Alignment.Center,
             modifier = modifier
-                .background(Color.DarkGray.copy(alpha = 0.5f))
+                .background(Color.Black)
                 .padding(spacing.spaceMedium)
                 .size(spacing.spaceExtraLarge)
                 .clip(CircleShape)

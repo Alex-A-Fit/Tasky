@@ -1,7 +1,7 @@
 package com.alexafit.onboardingauthdomain.useCase
 
-import com.alexafit.onboardingauthdata.local.util.emailpatternvalidator.EmailPatternValidator
 import com.alexafit.onboardingauthdomain.mapper.ValidateEmailResult
+import com.alexafit.onboardingauthdomain.util.emailpatternvalidator.EmailPatternValidator
 import javax.inject.Inject
 
 class ValidateEmail @Inject constructor(

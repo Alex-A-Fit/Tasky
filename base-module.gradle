@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdk ProjectConfig.compileSdk
@@ -18,6 +19,8 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         buildConfigField "String", "TASKY_API_KEY", "\"${properties.getProperty("TASKY_KEY")}\""
+        buildConfigField "String", "DATASTORE_AUTH_KEY", "\"${properties.getProperty("AUTH_KEY")}\""
+        buildConfigField "String", "DATASTORE_PREFERENCE_NAME", "\"${properties.getProperty("DATASTORE_PREFERENCE_NAME")}\""
     }
     buildTypes {
         release {
@@ -39,6 +42,7 @@ android {
 dependencies {
     kapt DaggerHilt.hiltCompiler
     implementation DaggerHilt.hiltAndroid
+    implementation DataStore.dataStore
 
     testImplementation Testing.junit4
     testImplementation Testing.junitAndroidExt
