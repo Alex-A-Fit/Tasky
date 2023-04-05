@@ -3,8 +3,8 @@ package com.alexafit.onboardingauthdata.di
 import com.alexafit.core.local.datastore.PreferenceStorage
 import com.alexafit.onboardingauthdata.BuildConfig
 import com.alexafit.onboardingauthdata.remote.TaskyApi
-import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdata.repository.OnboardingAuthRepositoryImpl
+import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

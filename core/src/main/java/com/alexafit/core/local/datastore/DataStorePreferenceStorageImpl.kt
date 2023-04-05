@@ -13,12 +13,12 @@ class DataStorePreferenceStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : PreferenceStorage {
 
-    override suspend fun setAuthorizationKey(authorizationKey: String?) {
+    override suspend fun setAuthorizationKey(authorizationKey: String) {
         dataStore.edit { settings ->
-            settings[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] = authorizationKey ?: ""
+            settings[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] = authorizationKey
         }
     }
 
-    override val authorizationKey: Flow<String> =
-        dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] ?: "" }
+    override val authorizationKey: Flow<String?> =
+        dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] }
 }

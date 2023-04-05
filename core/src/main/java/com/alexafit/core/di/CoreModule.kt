@@ -2,7 +2,6 @@ package com.alexafit.core.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,8 +14,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -27,28 +24,13 @@ object CoreModule {
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> {
-        val datastore = PreferenceDataStoreFactory.create(
-            migrations = listOf(
-                SharedPreferencesMigration(context, BuildConfig.DATASTORE_PREFERENCE_NAME)
-            ),
-            scope = CoroutineScope(Dispatchers.Default)
-        ) {
+        val datastore = PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile(BuildConfig.DATASTORE_PREFERENCE_NAME)
         }
         return datastore
     }
 
-    private val Context.datastore by preferencesDataStore(
-        name = BuildConfig.DATASTORE_PREFERENCE_NAME,
-        produceMigrations = { context ->
-            listOf(
-                SharedPreferencesMigration(
-                    context,
-                    BuildConfig.DATASTORE_PREFERENCE_NAME
-                )
-            )
-        }
-    )
+    private val Context.datastore by preferencesDataStore(name = BuildConfig.DATASTORE_PREFERENCE_NAME)
 
     @Singleton
     @Provides
