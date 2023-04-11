@@ -1,9 +1,9 @@
 package com.alexafit.onboardingauthdata.remote
 
 import com.alexafit.onboardingauthdata.model.remote.LoginResponse
-import com.alexafit.onboardingauthdata.model.remote.RegisterResponse
 import com.alexafit.onboardingauthdata.remote.dto.LoginDto
 import com.alexafit.onboardingauthdata.remote.dto.RegisterDto
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,7 +12,7 @@ interface TaskyApi {
     @POST("register")
     suspend fun registerUser(
         @Body registerDto: RegisterDto
-    ): Response<RegisterResponse>
+    ): Response<ResponseBody>
 
     @POST("login")
     suspend fun loginUser(

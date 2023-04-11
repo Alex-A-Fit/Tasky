@@ -61,7 +61,7 @@ fun RegisterScreen(
             when (event) {
                 is UiEvent.Success -> {
                     keyboardController?.hide()
-                    onEvent(NavigationEvent.NavigateToRegister)
+                    onEvent(NavigationEvent.NavigateToAgenda)
                 }
                 is UiEvent.ShowSnackbar -> {
                     keyboardController?.hide()

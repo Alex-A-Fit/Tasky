@@ -7,7 +7,7 @@ interface OnboardingAuthRepository {
 
     suspend fun registerUser(
         registerUser: RegisterUser
-    ): Result<String?>
+    ): Result<Unit>
 
     suspend fun loginUser(
         loginUser: LoginUser

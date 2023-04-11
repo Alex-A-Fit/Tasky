@@ -9,7 +9,9 @@ import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
+import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
+import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val onboardingAuthUseCase: OnboardingAuthUseCase
+    private val onboardingAuthUseCase: OnboardingAuthUseCase,
+    private val onboardingAuthRepository: OnboardingAuthRepository
 ) : ViewModel() {
 
     var registerState by mutableStateOf(RegisterState())
@@ -33,9 +36,7 @@ class RegisterViewModel @Inject constructor(
             when (event) {
                 RegisterUserEvent.NavigateToAgenda -> {
                     if (registerState.validPassword && registerState.validEmailAddress && registerState.validName) {
-                        /**
-                         * make api call to login and determine if login is successFul
-                         */
+                        registerUser()
                     } else {
                         /**
                          * Snackbar in place for error handling at the moment. Will discuss error handling in the future
@@ -146,12 +147,9 @@ class RegisterViewModel @Inject constructor(
             onboardingAuthUseCase
                 .registerUserUseCase(user = user)
                 .onSuccess {
-                    /**
-                     * need to Login User to get auth token
-                     */
-                    registerState = registerState.copy(isScreenLoading = false)
-                    _uiEvent.send(
-                        UiEvent.Success
+                    loginUser(
+                        email = user.email,
+                        password = user.password
                     )
                 }
                 .onFailure {
@@ -160,11 +158,59 @@ class RegisterViewModel @Inject constructor(
                         UiEvent.ShowSnackbar(
                             UiText
                                 .DynamicString(
-                                    "Oops, something went wrong when trying to register your account. Please try again later."
+                                    it.message ?: "Registration Failed, please try again"
                                 )
                         )
                     )
                 }
+        }
+    }
+
+    private fun loginUser(email: String, password: String) {
+        val user = LoginUser(
+            email = email,
+            password = password
+        )
+        viewModelScope.launch {
+            registerState = registerState.copy(isScreenLoading = true)
+            onboardingAuthUseCase
+                .loginUserUseCase(user = user)
+                .onSuccess { token ->
+                    if (!token.isNullOrEmpty()) {
+                        setAuthorizationToken(token)
+                        registerState = registerState.copy(isScreenLoading = false)
+                        _uiEvent.send(
+                            UiEvent.Success
+                        )
+                    } else {
+                        registerState = registerState.copy(isScreenLoading = false)
+                        _uiEvent.send(
+                            UiEvent.ShowSnackbar(
+                                UiText.StringResource(R.string.text_error_login_token_missing)
+                            )
+                        )
+                        _uiEvent.send(
+                            UiEvent.Navigate
+                        )
+                    }
+                }
+                .onFailure {
+                    _uiEvent.send(
+                        UiEvent.ShowSnackbar(
+                            UiText.StringResource(R.string.text_error_login_token_missing)
+                        )
+                    )
+                    registerState = registerState.copy(isScreenLoading = false)
+                    _uiEvent.send(
+                        UiEvent.Navigate
+                    )
+                }
+        }
+    }
+
+    private fun setAuthorizationToken(authToken: String) {
+        viewModelScope.launch {
+            onboardingAuthRepository.setDataStoreAuthKey(authToken)
         }
     }
 }
