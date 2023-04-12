@@ -2,4 +2,8 @@ apply {
     from("$rootDir/base-module.gradle")
 }
 
-dependencies {}
+dependencies {
+    "implementation"(Retrofit.okHttp)
+    "implementation"(Retrofit.retrofit)
+    "implementation"(Retrofit.moshiConverter)
+}

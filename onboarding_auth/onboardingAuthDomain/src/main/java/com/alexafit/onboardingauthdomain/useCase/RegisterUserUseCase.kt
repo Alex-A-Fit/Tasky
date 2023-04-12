@@ -8,7 +8,7 @@ class RegisterUserUseCase(
 ) {
     suspend operator fun invoke(
         user: RegisterUser
-    ): Result<String?> {
+    ): Result<Unit> {
         return repository.registerUser(registerUser = user)
     }
 }

@@ -1,6 +1,7 @@
 package com.alexafit.onboardingauthdata.repository
 
 import com.alexafit.core.local.datastore.PreferenceStorage
+import com.alexafit.core.remote.handleErrorResponse
 import com.alexafit.onboardingauthdata.mapper.mapToDto
 import com.alexafit.onboardingauthdata.remote.TaskyApi
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
@@ -11,12 +12,16 @@ class OnboardingAuthRepositoryImpl(
     private val taskyApi: TaskyApi,
     private val dataStore: PreferenceStorage
 ) : OnboardingAuthRepository {
-    override suspend fun registerUser(registerUser: RegisterUser): Result<String?> {
+    override suspend fun registerUser(registerUser: RegisterUser): Result<Unit> {
         val registerResponse = taskyApi.registerUser(registerDto = registerUser.mapToDto())
-        return if (registerResponse.isSuccessful) {
-            Result.success(null)
-        } else {
-            Result.failure(Throwable(message = registerResponse.body()?.message))
+        return try {
+            if (registerResponse.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                handleErrorResponse(response = registerResponse)
+            }
+        } catch (e: Exception) {
+            Result.failure(Throwable(message = "Error in api call"))
         }
     }
 

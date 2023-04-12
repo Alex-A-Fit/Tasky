@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
+import com.alexafit.onboardingAuthPresentation.event.uievent.LoginUiEvent
 import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
@@ -28,7 +28,7 @@ class LoginViewModel @Inject constructor(
     var loginState by mutableStateOf(LoginState())
         private set
 
-    private val _uiEvent = Channel<UiEvent>()
+    private val _uiEvent = Channel<LoginUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: LoginUserEvent) {
@@ -44,28 +44,28 @@ class LoginViewModel @Inject constructor(
                         when {
                             !loginState.validEmailAddress && !loginState.validPassword -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    LoginUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_and_password)
                                     )
                                 )
                             }
                             !loginState.validEmailAddress -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    LoginUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email)
                                     )
                                 )
                             }
                             !loginState.validPassword -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    LoginUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_password)
                                     )
                                 )
                             }
                             else -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    LoginUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_and_password)
                                     )
                                 )
@@ -75,7 +75,7 @@ class LoginViewModel @Inject constructor(
                 }
                 LoginUserEvent.NavigateToRegister -> {
                     _uiEvent.send(
-                        UiEvent.Navigate
+                        LoginUiEvent.NavigateToRegisterScreen
                     )
                 }
                 is LoginUserEvent.OnEmailAddressEnter -> {
@@ -126,12 +126,12 @@ class LoginViewModel @Inject constructor(
                         setAuthorizationToken(token)
                         loginState = loginState.copy(isScreenLoading = false)
                         _uiEvent.send(
-                            UiEvent.Success
+                            LoginUiEvent.Success
                         )
                     } else {
                         loginState = loginState.copy(isScreenLoading = false)
                         _uiEvent.send(
-                            UiEvent.ShowSnackbar(
+                            LoginUiEvent.ShowSnackbar(
                                 UiText.StringResource(R.string.text_error_login_token_missing)
                             )
                         )
@@ -140,7 +140,7 @@ class LoginViewModel @Inject constructor(
                 .onFailure {
                     loginState = loginState.copy(isScreenLoading = false)
                     _uiEvent.send(
-                        UiEvent.ShowSnackbar(
+                        LoginUiEvent.ShowSnackbar(
                             UiText.StringResource(R.string.text_error_login_failure)
                         )
                     )
