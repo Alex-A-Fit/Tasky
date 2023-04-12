@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alexafit.core.util.UiEvent
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.SuccessGreen
 import com.alexafit.coreui.components.buttons.TextActionButton
@@ -43,6 +42,7 @@ import com.alexafit.coreui.components.loading.CircularLoadingDialog
 import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
+import com.alexafit.onboardingAuthPresentation.event.uievent.RegisterUiEvent
 import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -59,26 +59,23 @@ fun RegisterScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> {
+                is RegisterUiEvent.Success -> {
                     keyboardController?.hide()
                     onEvent(NavigationEvent.NavigateToAgenda)
                 }
-                is UiEvent.ShowSnackbar -> {
+                is RegisterUiEvent.ShowSnackbar -> {
                     keyboardController?.hide()
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
                     )
                 }
-                is UiEvent.Navigate -> {
+                is RegisterUiEvent.NavigateToLoginScreen -> {
                     keyboardController?.hide()
                     onEvent(NavigationEvent.NavigateToLogin)
                 }
             }
         }
     }
-    /**
-     * Finish involving UI with data layer in another PR
-     */
     if (viewModel.registerState.isScreenLoading) {
         CircularLoadingDialog(Modifier)
     } else {

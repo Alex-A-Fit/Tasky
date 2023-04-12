@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alexafit.core.util.UiEvent
 import com.alexafit.coreui.LightBlue
 import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.SuccessGreen
@@ -44,6 +43,7 @@ import com.alexafit.coreui.components.loading.CircularLoadingDialog
 import com.alexafit.coreui.components.textfield.TextFieldWithIcon
 import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
+import com.alexafit.onboardingAuthPresentation.event.uievent.LoginUiEvent
 import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -60,17 +60,17 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> {
+                is LoginUiEvent.Success -> {
                     keyboardController?.hide()
                     onEvent(NavigationEvent.NavigateToAgenda)
                 }
-                is UiEvent.ShowSnackbar -> {
+                is LoginUiEvent.ShowSnackbar -> {
                     keyboardController?.hide()
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
                     )
                 }
-                is UiEvent.Navigate -> {
+                is LoginUiEvent.NavigateToRegisterScreen -> {
                     keyboardController?.hide()
                     onEvent(NavigationEvent.NavigateToRegister)
                 }

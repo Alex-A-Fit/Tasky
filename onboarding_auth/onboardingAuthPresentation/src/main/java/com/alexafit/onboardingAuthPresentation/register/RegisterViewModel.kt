@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexafit.core.util.UiEvent
 import com.alexafit.core.util.UiText
 import com.alexafit.onboardingAuthPresentation.R
+import com.alexafit.onboardingAuthPresentation.event.uievent.RegisterUiEvent
 import com.alexafit.onboardingAuthPresentation.event.user.RegisterUserEvent
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
@@ -28,7 +28,7 @@ class RegisterViewModel @Inject constructor(
     var registerState by mutableStateOf(RegisterState())
         private set
 
-    private val _uiEvent = Channel<UiEvent>()
+    private val _uiEvent = Channel<RegisterUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: RegisterUserEvent) {
@@ -44,42 +44,42 @@ class RegisterViewModel @Inject constructor(
                         when {
                             !registerState.validEmailAddress && !registerState.validPassword && !registerState.validName -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_password_and_name)
                                     )
                                 )
                             }
                             !registerState.validEmailAddress && !registerState.validPassword -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_and_password)
                                     )
                                 )
                             }
                             !registerState.validEmailAddress -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email)
                                     )
                                 )
                             }
                             !registerState.validPassword -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_password)
                                     )
                                 )
                             }
                             !registerState.validName -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_name)
                                     )
                                 )
                             }
                             else -> {
                                 _uiEvent.send(
-                                    UiEvent.ShowSnackbar(
+                                    RegisterUiEvent.ShowSnackbar(
                                         UiText.StringResource(R.string.text_error_invalid_email_password_and_name)
                                     )
                                 )
@@ -89,7 +89,7 @@ class RegisterViewModel @Inject constructor(
                 }
                 RegisterUserEvent.NavigateToLogin -> {
                     _uiEvent.send(
-                        UiEvent.Navigate
+                        RegisterUiEvent.NavigateToLoginScreen
                     )
                 }
                 is RegisterUserEvent.OnEmailAddressEnter -> {
@@ -155,7 +155,7 @@ class RegisterViewModel @Inject constructor(
                 .onFailure {
                     registerState = registerState.copy(isScreenLoading = false)
                     _uiEvent.send(
-                        UiEvent.ShowSnackbar(
+                        RegisterUiEvent.ShowSnackbar(
                             UiText
                                 .DynamicString(
                                     it.message ?: "Registration Failed, please try again"
@@ -180,29 +180,29 @@ class RegisterViewModel @Inject constructor(
                         setAuthorizationToken(token)
                         registerState = registerState.copy(isScreenLoading = false)
                         _uiEvent.send(
-                            UiEvent.Success
+                            RegisterUiEvent.Success
                         )
                     } else {
                         registerState = registerState.copy(isScreenLoading = false)
                         _uiEvent.send(
-                            UiEvent.ShowSnackbar(
+                            RegisterUiEvent.ShowSnackbar(
                                 UiText.StringResource(R.string.text_error_login_token_missing)
                             )
                         )
                         _uiEvent.send(
-                            UiEvent.Navigate
+                            RegisterUiEvent.NavigateToLoginScreen
                         )
                     }
                 }
                 .onFailure {
                     _uiEvent.send(
-                        UiEvent.ShowSnackbar(
+                        RegisterUiEvent.ShowSnackbar(
                             UiText.StringResource(R.string.text_error_login_token_missing)
                         )
                     )
                     registerState = registerState.copy(isScreenLoading = false)
                     _uiEvent.send(
-                        UiEvent.Navigate
+                        RegisterUiEvent.NavigateToLoginScreen
                     )
                 }
         }
