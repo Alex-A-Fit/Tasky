@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferenceStorage {
     suspend fun setAuthorizationKey(authorizationKey: String)
+    suspend fun clearAuthorizationKey()
     val authorizationKey: Flow<String?>
 
     object PreferencesKey {

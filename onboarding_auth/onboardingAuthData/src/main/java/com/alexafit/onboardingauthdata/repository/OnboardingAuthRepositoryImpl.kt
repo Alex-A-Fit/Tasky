@@ -7,6 +7,11 @@ import com.alexafit.onboardingauthdata.remote.TaskyApi
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
 import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOf
+
+const val API_ERROR = "Error in api call"
 
 class OnboardingAuthRepositoryImpl(
     private val taskyApi: TaskyApi,
@@ -21,7 +26,22 @@ class OnboardingAuthRepositoryImpl(
                 handleErrorResponse(response = registerResponse)
             }
         } catch (e: Exception) {
-            Result.failure(Throwable(message = "Error in api call"))
+            Result.failure(Throwable(message = API_ERROR))
+        }
+    }
+
+    override suspend fun checkAuthentication(): Flow<Result<Unit>> {
+        val authenticationResponse = taskyApi.checkAuthentication(
+            ("Bearer " + (dataStore.authorizationKey.firstOrNull() ?: ""))
+        )
+        return try {
+            if (authenticationResponse.isSuccessful) {
+                flowOf(Result.success(Unit))
+            } else {
+                flowOf(handleErrorResponse(response = authenticationResponse))
+            }
+        } catch (e: Exception) {
+            flowOf(Result.failure(Throwable(message = API_ERROR)))
         }
     }
 

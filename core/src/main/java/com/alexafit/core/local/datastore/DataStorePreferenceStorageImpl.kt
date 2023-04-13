@@ -19,6 +19,12 @@ class DataStorePreferenceStorageImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearAuthorizationKey() {
+        dataStore.edit { settings ->
+            settings.remove(PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY)
+        }
+    }
+
     override val authorizationKey: Flow<String?> =
         dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] }
 }
