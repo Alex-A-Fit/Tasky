@@ -12,19 +12,33 @@ import javax.inject.Singleton
 class DataStorePreferenceStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : PreferenceStorage {
+    override val authorizationKey: Flow<String?> =
+        dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] }
+
+    override val userNameKey: Flow<String?> =
+        dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_USER_NAME_KEY] }
 
     override suspend fun setAuthorizationKey(authorizationKey: String) {
-        dataStore.edit { settings ->
-            settings[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] = authorizationKey
+        dataStore.edit { preferences ->
+            preferences[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] = authorizationKey
         }
     }
 
     override suspend fun clearAuthorizationKey() {
-        dataStore.edit { settings ->
-            settings.remove(PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY)
+        dataStore.edit { preferences ->
+            preferences.remove(PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY)
         }
     }
 
-    override val authorizationKey: Flow<String?> =
-        dataStore.data.map { it[PreferenceStorage.PreferencesKey.PREF_AUTHORIZATION_KEY] }
+    override suspend fun setUserName(userName: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferenceStorage.PreferencesKey.PREF_USER_NAME_KEY] = userName
+        }
+    }
+
+    override suspend fun clearUserName() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferenceStorage.PreferencesKey.PREF_USER_NAME_KEY)
+        }
+    }
 }

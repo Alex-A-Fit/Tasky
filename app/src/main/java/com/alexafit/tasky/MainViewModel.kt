@@ -27,8 +27,9 @@ class MainViewModel @Inject constructor(
     var authenticationApiResponse: Result<Unit>? = null
         private set
 
+    //Commenting out for now to reduce loading times for app.
     init {
-        runSplashScreen()
+//        runSplashScreen()
     }
 
     private suspend fun checkAuthentication() {
