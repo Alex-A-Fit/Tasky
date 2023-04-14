@@ -10,7 +10,6 @@ import com.alexafit.onboardingAuthPresentation.R
 import com.alexafit.onboardingAuthPresentation.event.uievent.LoginUiEvent
 import com.alexafit.onboardingAuthPresentation.event.user.LoginUserEvent
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
-import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
 import com.alexafit.onboardingauthdomain.useCase.OnboardingAuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val onboardingAuthUseCase: OnboardingAuthUseCase,
-    private val onboardingAuthRepository: OnboardingAuthRepository
+    private val onboardingAuthUseCase: OnboardingAuthUseCase
 ) : ViewModel() {
 
     var loginState by mutableStateOf(LoginState())
@@ -123,7 +121,6 @@ class LoginViewModel @Inject constructor(
                 .loginUserUseCase(user = user)
                 .onSuccess { token ->
                     if (!token.isNullOrEmpty()) {
-                        setAuthorizationToken(token)
                         loginState = loginState.copy(isScreenLoading = false)
                         _uiEvent.send(
                             LoginUiEvent.Success
@@ -145,12 +142,6 @@ class LoginViewModel @Inject constructor(
                         )
                     )
                 }
-        }
-    }
-
-    private fun setAuthorizationToken(authToken: String) {
-        viewModelScope.launch {
-            onboardingAuthRepository.setDataStoreAuthKey(authToken)
         }
     }
 }

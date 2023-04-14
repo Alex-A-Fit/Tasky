@@ -2,4 +2,5 @@
 <resources>
     <color name="black">#FF16161C</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="TaskyGreen">#FF279F70</color>
 </resources>

@@ -88,6 +88,8 @@ dependencies {
 
     implementation(DataStore.dataStore)
 
+    implementation(SplashScreen.splashScreenCore)
+
     testImplementation(Testing.junit4)
     testImplementation(Testing.junitAndroidExt)
     testImplementation(Testing.truth)

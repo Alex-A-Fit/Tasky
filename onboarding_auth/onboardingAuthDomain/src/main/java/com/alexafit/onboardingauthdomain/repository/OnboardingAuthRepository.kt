@@ -9,9 +9,11 @@ interface OnboardingAuthRepository {
         registerUser: RegisterUser
     ): Result<Unit>
 
+    suspend fun checkAuthentication(): Result<Unit>
+
     suspend fun loginUser(
         loginUser: LoginUser
     ): Result<String?>
 
-    suspend fun setDataStoreAuthKey(authToken: String)
+    suspend fun setDataStoreAuthKey(authToken: String?)
 }
