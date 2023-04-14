@@ -7,9 +7,7 @@ import com.alexafit.onboardingauthdata.remote.TaskyApi
 import com.alexafit.onboardingauthdomain.model.remote.LoginUser
 import com.alexafit.onboardingauthdomain.model.remote.RegisterUser
 import com.alexafit.onboardingauthdomain.repository.OnboardingAuthRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flowOf
 
 const val API_ERROR = "Error in api call"
 
@@ -30,31 +28,35 @@ class OnboardingAuthRepositoryImpl(
         }
     }
 
-    override suspend fun checkAuthentication(): Flow<Result<Unit>> {
-        val authenticationResponse = taskyApi.checkAuthentication(
-            ("Bearer " + (dataStore.authorizationKey.firstOrNull() ?: ""))
-        )
+    override suspend fun checkAuthentication(): Result<Unit> {
         return try {
+            val authenticationResponse = taskyApi.checkAuthentication(
+                ("Bearer " + (dataStore.authorizationKey.firstOrNull() ?: ""))
+            )
             if (authenticationResponse.isSuccessful) {
-                flowOf(Result.success(Unit))
+                Result.success(Unit)
             } else {
-                flowOf(handleErrorResponse(response = authenticationResponse))
+                handleErrorResponse(response = authenticationResponse)
             }
         } catch (e: Exception) {
-            flowOf(Result.failure(Throwable(message = API_ERROR)))
+            Result.failure(Throwable(message = API_ERROR))
         }
     }
 
     override suspend fun loginUser(loginUser: LoginUser): Result<String?> {
         val loginResponse = taskyApi.loginUser(loginDto = loginUser.mapToDto())
         return if (loginResponse.isSuccessful && loginResponse.body() != null) {
+            val authToken = loginResponse.body()?.token
+            setDataStoreAuthKey(authToken)
             Result.success(loginResponse.body()?.token)
         } else {
             Result.failure(Throwable(message = loginResponse.message()))
         }
     }
 
-    override suspend fun setDataStoreAuthKey(authToken: String) {
-        dataStore.setAuthorizationKey(authToken)
+    override suspend fun setDataStoreAuthKey(authToken: String?) {
+        if (authToken != null) {
+            dataStore.setAuthorizationKey(authToken)
+        }
     }
 }

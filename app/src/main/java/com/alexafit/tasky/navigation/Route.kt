@@ -2,7 +2,6 @@ package com.alexafit.tasky.navigation
 
 object Route {
     const val LOGIN = "login"
-    const val LOADING_SCREEN = "loading_screen"
     const val REGISTER = "register"
     const val AGENDA_OVERVIEW = "agenda_overview"
     const val EDIT_SCREEN = "edit_screen"
