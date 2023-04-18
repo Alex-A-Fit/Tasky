@@ -44,19 +44,31 @@ class OnboardingAuthRepositoryImpl(
     }
 
     override suspend fun loginUser(loginUser: LoginUser): Result<String?> {
-        val loginResponse = taskyApi.loginUser(loginDto = loginUser.mapToDto())
-        return if (loginResponse.isSuccessful && loginResponse.body() != null) {
-            val authToken = loginResponse.body()?.token
-            setDataStoreAuthKey(authToken)
-            Result.success(loginResponse.body()?.token)
-        } else {
-            Result.failure(Throwable(message = loginResponse.message()))
+        return try {
+            val loginResponse = taskyApi.loginUser(loginDto = loginUser.mapToDto())
+            return if (loginResponse.isSuccessful && loginResponse.body() != null) {
+                val authToken = loginResponse.body()?.token
+                val userName = loginResponse.body()?.fullName
+                setDataStoreAuthKey(authToken)
+                setDataStoreUserName(userName)
+                Result.success(authToken)
+            } else {
+                Result.failure(Throwable(message = loginResponse.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(Throwable(message = API_ERROR))
         }
     }
 
-    override suspend fun setDataStoreAuthKey(authToken: String?) {
+    private suspend fun setDataStoreAuthKey(authToken: String?) {
         if (authToken != null) {
             dataStore.setAuthorizationKey(authToken)
+        }
+    }
+
+    private suspend fun setDataStoreUserName(userName: String?) {
+        if (userName != null) {
+            dataStore.setUserName(userName)
         }
     }
 }

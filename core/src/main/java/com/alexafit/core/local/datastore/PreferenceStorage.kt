@@ -1,7 +1,5 @@
 package com.alexafit.core.local.datastore
 
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.alexafit.core.BuildConfig
 import kotlinx.coroutines.flow.Flow
 
 interface PreferenceStorage {
@@ -9,7 +7,7 @@ interface PreferenceStorage {
     suspend fun clearAuthorizationKey()
     val authorizationKey: Flow<String?>
 
-    object PreferencesKey {
-        val PREF_AUTHORIZATION_KEY = stringPreferencesKey(BuildConfig.DATASTORE_AUTH_KEY)
-    }
+    suspend fun setUserName(userName: String)
+    suspend fun clearUserName()
+    val userNameKey: Flow<String?>
 }

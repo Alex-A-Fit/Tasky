@@ -60,7 +60,8 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
                     NavHost(
                         navController = navController,
-                        startDestination = if (mainViewModel.activeSession.value == true) Route.AGENDA_OVERVIEW else Route.LOGIN,
+                        startDestination = Route.AGENDA_OVERVIEW,
+//                        if (mainViewModel.activeSession.value == true) Route.AGENDA_OVERVIEW else Route.LOGIN,
                         modifier = Modifier.padding(padding)
                     ) {
                         composable(Route.LOGIN) {

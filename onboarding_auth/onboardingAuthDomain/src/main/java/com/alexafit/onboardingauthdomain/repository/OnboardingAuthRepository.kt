@@ -14,6 +14,4 @@ interface OnboardingAuthRepository {
     suspend fun loginUser(
         loginUser: LoginUser
     ): Result<String?>
-
-    suspend fun setDataStoreAuthKey(authToken: String?)
 }

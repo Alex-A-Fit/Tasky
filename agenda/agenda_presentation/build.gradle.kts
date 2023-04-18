@@ -8,4 +8,5 @@ dependencies {
     "implementation"(project(Modules.agendaDomain))
 
     "implementation"(Coil.coilCompose)
+    "implementation"(Compose.dialogCompose)
 }
