@@ -13,25 +13,37 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.alexafit.agendapresentation.R
+import com.alexafit.agendapresentation.overview.model.OverviewState
 import java.time.LocalDate
 
 @Composable
-fun DatePickerDialog() {
+fun DatePickerDialog(
+    overviewState: OverviewState,
+    onDateSelectedClickEvent: (LocalDate) -> Unit
+) {
     val context = LocalContext.current
     val dialog = android.app.DatePickerDialog(context)
-
-    /**
-     * Need to pass fn to save date selection
-     */
+    dialog.setOnDateSetListener { _, year, month, dayOfMonth ->
+        val chosenDate: LocalDate = LocalDate.of(year, (month + 1), dayOfMonth)
+        onDateSelectedClickEvent(chosenDate)
+    }
     Row(
         modifier = Modifier
-            .clickable { dialog.show() }
+            .clickable {
+                dialog.datePicker.updateDate(
+                    overviewState.startingDate.year,
+                    (overviewState.startingDate.month.value - 1),
+                    overviewState.startingDate.dayOfMonth
+                )
+                dialog.show()
+            }
             .wrapContentWidth(unbounded = false)
     ) {
         Text(
-            text = LocalDate.now().month.name,
+            text = overviewState.currentMonth,
             color = MaterialTheme.colors.onPrimary,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.subtitle2
         )
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),

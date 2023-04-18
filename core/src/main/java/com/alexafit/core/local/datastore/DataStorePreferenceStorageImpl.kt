@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-    private val DATA_STORE_AUTHORIZATION_TOKEN_KEY = stringPreferencesKey("pref_auth_key")
-    private val DATA_STORE_USER_NAME_KEY = stringPreferencesKey("pref_name_key")
+private val DATA_STORE_AUTHORIZATION_TOKEN_KEY = stringPreferencesKey("pref_auth_key")
+private val DATA_STORE_USER_NAME_KEY = stringPreferencesKey("pref_name_key")
+
 @Singleton
 class DataStorePreferenceStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>

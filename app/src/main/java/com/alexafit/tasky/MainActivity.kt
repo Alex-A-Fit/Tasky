@@ -19,7 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alexafit.agendapresentation.overview.Overview
+import com.alexafit.agendapresentation.overview.OverviewScreen
 import com.alexafit.onboardingAuthPresentation.event.navigation.NavigationEvent
 import com.alexafit.onboardingAuthPresentation.login.LoginScreen
 import com.alexafit.onboardingAuthPresentation.register.RegisterScreen
@@ -78,7 +78,9 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.AGENDA_OVERVIEW) {
-                            Overview()
+                            OverviewScreen(
+                                scaffoldState = scaffoldState
+                            )
                         }
                     }
                 }

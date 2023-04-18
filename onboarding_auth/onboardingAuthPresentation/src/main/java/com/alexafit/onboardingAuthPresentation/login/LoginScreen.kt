@@ -116,9 +116,6 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                /**
-                 * Need to finish TextField api login logic
-                 */
                 Spacer(modifier = Modifier.height(spacing.spaceSmall))
                 TextFieldWithIcon(
                     text = viewModel.loginState.emailAddress,
