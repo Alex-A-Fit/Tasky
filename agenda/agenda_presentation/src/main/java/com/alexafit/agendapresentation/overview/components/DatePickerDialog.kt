@@ -2,7 +2,6 @@ package com.alexafit.agendapresentation.overview.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -37,7 +36,6 @@ fun DatePickerDialog(
                 )
                 dialog.show()
             }
-            .wrapContentWidth(unbounded = false)
     ) {
         Text(
             text = overviewState.currentMonth,
