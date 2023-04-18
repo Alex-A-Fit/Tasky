@@ -12,6 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,6 +26,7 @@ import com.alexafit.onboardingAuthPresentation.register.RegisterScreen
 import com.alexafit.tasky.navigation.Route
 import com.alexafit.tasky.ui.theme.TaskyTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -29,25 +34,22 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // val splashScreen = installSplashScreen()
+        val splashScreen = installSplashScreen()
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
-        /**
-         * Commenting out for now to reduce loading times for app.
-         */
-//        lifecycleScope.launch {
-//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                mainViewModel.uiState.collect {
-//                    uiState = it
-//                }
-//            }
-//        }
-//        splashScreen.setKeepOnScreenCondition {
-//            when (uiState) {
-//                MainActivityUiState.Loading -> true
-//                MainActivityUiState.Success -> false
-//            }
-//        }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.uiState.collect {
+                    uiState = it
+                }
+            }
+        }
+        splashScreen.setKeepOnScreenCondition {
+            when (uiState) {
+                MainActivityUiState.Loading -> true
+                MainActivityUiState.Success -> false
+            }
+        }
         setContent {
             TaskyTheme {
                 val navController = rememberNavController()

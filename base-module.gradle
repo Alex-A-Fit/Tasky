@@ -19,9 +19,6 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         buildConfigField "String", "TASKY_API_KEY", "\"${properties.getProperty("TASKY_KEY")}\""
-        buildConfigField "String", "DATASTORE_AUTH_KEY", "\"${properties.getProperty("AUTH_KEY")}\""
-        buildConfigField "String", "DATASTORE_NAME_KEY", "\"${properties.getProperty("NAME_KEY")}\""
-        buildConfigField "String", "DATASTORE_PREFERENCE_NAME", "\"${properties.getProperty("DATASTORE_PREFERENCE_NAME")}\""
     }
     buildTypes {
         release {

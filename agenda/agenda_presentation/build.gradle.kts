@@ -8,5 +8,5 @@ dependencies {
     "implementation"(project(Modules.agendaDomain))
 
     "implementation"(Coil.coilCompose)
-    "implementation"("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+    "implementation"(Compose.dialogCompose)
 }
