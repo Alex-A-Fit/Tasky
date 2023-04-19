@@ -1,4 +1,4 @@
-package com.alexafit.agendapresentation.overview.components
+package com.alexafit.agendapresentation.agenda.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding

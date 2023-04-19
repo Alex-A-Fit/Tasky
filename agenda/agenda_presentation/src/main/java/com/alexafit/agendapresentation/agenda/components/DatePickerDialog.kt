@@ -1,8 +1,7 @@
-package com.alexafit.agendapresentation.overview.components
+package com.alexafit.agendapresentation.agenda.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -13,25 +12,36 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.alexafit.agendapresentation.R
+import com.alexafit.agendapresentation.agenda.model.AgendaState
 import java.time.LocalDate
 
 @Composable
-fun DatePickerDialog() {
+fun DatePickerDialog(
+    agendaState: AgendaState,
+    onDateSelectedClickEvent: (LocalDate) -> Unit
+) {
     val context = LocalContext.current
     val dialog = android.app.DatePickerDialog(context)
-
-    /**
-     * Need to pass fn to save date selection
-     */
+    dialog.setOnDateSetListener { _, year, month, dayOfMonth ->
+        val chosenDate: LocalDate = LocalDate.of(year, (month + 1), dayOfMonth)
+        onDateSelectedClickEvent(chosenDate)
+    }
     Row(
         modifier = Modifier
-            .clickable { dialog.show() }
-            .wrapContentWidth(unbounded = false)
+            .clickable {
+                dialog.datePicker.updateDate(
+                    agendaState.startingDate.year,
+                    (agendaState.startingDate.month.value - 1),
+                    agendaState.startingDate.dayOfMonth
+                )
+                dialog.show()
+            }
     ) {
         Text(
-            text = LocalDate.now().month.name,
+            text = agendaState.currentMonth,
             color = MaterialTheme.colors.onPrimary,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.subtitle2
         )
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
