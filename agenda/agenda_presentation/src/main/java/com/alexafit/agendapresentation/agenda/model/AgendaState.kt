@@ -1,10 +1,10 @@
-package com.alexafit.agendapresentation.overview.model
+package com.alexafit.agendapresentation.agenda.model
 
 import java.time.LocalDate
 
-data class OverviewState(
+data class AgendaState(
     var startingDate: LocalDate = LocalDate.now(),
     var chosenDate: LocalDate = LocalDate.now(),
     var currentMonth: String = chosenDate.month.name,
-    var overviewCalendar: MutableList<OverviewCalendar> = mutableListOf()
+    var day: MutableList<Day> = mutableListOf()
 )

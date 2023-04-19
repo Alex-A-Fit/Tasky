@@ -1,4 +1,4 @@
-package com.alexafit.agendapresentation.overview.components
+package com.alexafit.agendapresentation.agenda.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -12,12 +12,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.alexafit.agendapresentation.R
-import com.alexafit.agendapresentation.overview.model.OverviewState
+import com.alexafit.agendapresentation.agenda.model.AgendaState
 import java.time.LocalDate
 
 @Composable
 fun DatePickerDialog(
-    overviewState: OverviewState,
+    agendaState: AgendaState,
     onDateSelectedClickEvent: (LocalDate) -> Unit
 ) {
     val context = LocalContext.current
@@ -30,15 +30,15 @@ fun DatePickerDialog(
         modifier = Modifier
             .clickable {
                 dialog.datePicker.updateDate(
-                    overviewState.startingDate.year,
-                    (overviewState.startingDate.month.value - 1),
-                    overviewState.startingDate.dayOfMonth
+                    agendaState.startingDate.year,
+                    (agendaState.startingDate.month.value - 1),
+                    agendaState.startingDate.dayOfMonth
                 )
                 dialog.show()
             }
     ) {
         Text(
-            text = overviewState.currentMonth,
+            text = agendaState.currentMonth,
             color = MaterialTheme.colors.onPrimary,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.subtitle2

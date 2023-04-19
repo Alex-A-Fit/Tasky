@@ -1,4 +1,4 @@
-package com.alexafit.agendapresentation.overview.components
+package com.alexafit.agendapresentation.agenda.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import com.alexafit.coreui.LocalSpacing
 import com.alexafit.coreui.Orange
 
 @Composable
-fun OverviewCalendarDate(
+fun AgendaDate(
     isSelected: Boolean,
     dayAcronym: String,
     dayOfMonth: String,

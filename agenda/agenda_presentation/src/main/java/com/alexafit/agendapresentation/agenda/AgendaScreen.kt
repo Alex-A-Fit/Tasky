@@ -1,4 +1,4 @@
-package com.alexafit.agendapresentation.overview
+package com.alexafit.agendapresentation.agenda
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,17 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alexafit.agendapresentation.overview.components.DatePickerDialog
-import com.alexafit.agendapresentation.overview.components.OverviewCalendarDate
-import com.alexafit.agendapresentation.overview.components.ProfileIcon
-import com.alexafit.agendapresentation.overview.model.OverviewClickEvents
+import com.alexafit.agendapresentation.agenda.components.DatePickerDialog
+import com.alexafit.agendapresentation.agenda.components.AgendaDate
+import com.alexafit.agendapresentation.agenda.components.ProfileIcon
+import com.alexafit.agendapresentation.agenda.model.AgendaClickEvents
 import com.alexafit.coreui.LocalSpacing
 
 @Composable
-fun OverviewScreen(
+fun AgendaScreen(
     scaffoldState: ScaffoldState,
 //    onEvent: () -> Unit,
-    viewModel: OverviewViewModel = hiltViewModel()
+    viewModel: AgendaViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val spacing = LocalSpacing.current
@@ -51,9 +51,9 @@ fun OverviewScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 DatePickerDialog(
-                    overviewState = viewModel.overviewState,
+                    agendaState = viewModel.agendaState,
                     onDateSelectedClickEvent = {
-                        viewModel.onClickEvent(OverviewClickEvents.OnDialogSelection(it))
+                        viewModel.onClickEvent(AgendaClickEvents.OnDialogSelection(it))
                     }
                 )
                 ProfileIcon()
@@ -80,13 +80,13 @@ fun OverviewScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     repeat(6) { dayCount ->
-                        val date = viewModel.overviewState.overviewCalendar
-                        OverviewCalendarDate(
-                            isSelected = viewModel.overviewState.chosenDate == date[dayCount].localDate,
+                        val date = viewModel.agendaState.day
+                        AgendaDate(
+                            isSelected = viewModel.agendaState.chosenDate == date[dayCount].localDate,
                             dayAcronym = date[dayCount].dayAcronym,
                             dayOfMonth = date[dayCount].dayOfMonth,
                             onDateSelectedClickEvent = {
-                                viewModel.onClickEvent(OverviewClickEvents.OnOverviewDateSelected(date[dayCount].localDate))
+                                viewModel.onClickEvent(AgendaClickEvents.OnAgendaDateSelected(date[dayCount].localDate))
                             },
                             modifier = Modifier
                         )
