@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexafit.agendapresentation.agenda.model.Day
-import com.alexafit.agendapresentation.agenda.model.AgendaClickEvents
+import com.alexafit.agendapresentation.agenda.model.AgendaClickEvent
 import com.alexafit.agendapresentation.agenda.model.AgendaState
+import com.alexafit.agendapresentation.agenda.model.Day
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -21,10 +21,10 @@ class AgendaViewModel @Inject constructor() : ViewModel() {
     init {
         updateSixDayOverview()
     }
-    fun onClickEvent(clickEvent: AgendaClickEvents) {
+    fun onClickEvent(clickEvent: AgendaClickEvent) {
         viewModelScope.launch {
             when (clickEvent) {
-                is AgendaClickEvents.OnDialogSelection -> {
+                is AgendaClickEvent.OnDialogSelection -> {
                     agendaState = agendaState.copy(
                         startingDate = clickEvent.dialogDate,
                         currentMonth = clickEvent.dialogDate.month.name,
@@ -32,11 +32,12 @@ class AgendaViewModel @Inject constructor() : ViewModel() {
                     )
                     updateSixDayOverview(startingDate = clickEvent.dialogDate)
                 }
-                is AgendaClickEvents.OnAgendaDateSelected -> {
+                is AgendaClickEvent.OnAgendaDateSelected -> {
                     agendaState = agendaState.copy(
                         chosenDate = clickEvent.selectedDate
                     )
                 }
+                AgendaClickEvent.AgendaItemSettings -> Unit
             }
         }
     }

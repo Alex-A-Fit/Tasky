@@ -13,15 +13,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alexafit.agendapresentation.agenda.components.DatePickerDialog
+import com.alexafit.agendapresentation.R
 import com.alexafit.agendapresentation.agenda.components.AgendaDate
+import com.alexafit.agendapresentation.agenda.components.AgendaItemCard
+import com.alexafit.agendapresentation.agenda.components.DatePickerDialog
 import com.alexafit.agendapresentation.agenda.components.ProfileIcon
-import com.alexafit.agendapresentation.agenda.model.AgendaClickEvents
+import com.alexafit.agendapresentation.agenda.model.AgendaClickEvent
+import com.alexafit.agendapresentation.agenda.model.AgendaItemOverview
 import com.alexafit.coreui.LocalSpacing
 
 @Composable
@@ -53,7 +60,7 @@ fun AgendaScreen(
                 DatePickerDialog(
                     agendaState = viewModel.agendaState,
                     onDateSelectedClickEvent = {
-                        viewModel.onClickEvent(AgendaClickEvents.OnDialogSelection(it))
+                        viewModel.onClickEvent(AgendaClickEvent.OnDialogSelection(it))
                     }
                 )
                 ProfileIcon()
@@ -70,8 +77,7 @@ fun AgendaScreen(
                         )
                     )
                     .padding(top = spacing.spaceSmall),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalArrangement = Arrangement.Top
             ) {
                 Row(
                     modifier = Modifier
@@ -86,11 +92,31 @@ fun AgendaScreen(
                             dayAcronym = date[dayCount].dayAcronym,
                             dayOfMonth = date[dayCount].dayOfMonth,
                             onDateSelectedClickEvent = {
-                                viewModel.onClickEvent(AgendaClickEvents.OnAgendaDateSelected(date[dayCount].localDate))
+                                viewModel.onClickEvent(AgendaClickEvent.OnAgendaDateSelected(date[dayCount].localDate))
                             },
                             modifier = Modifier
                         )
                     }
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                Column(modifier = Modifier.padding(horizontal = spacing.spaceMedium)) {
+                    Text(
+                        stringResource(id = R.string.text_agenda_today_title),
+                        style = MaterialTheme.typography.subtitle1,
+                        color = MaterialTheme.colors.onSecondary,
+                        textAlign = TextAlign.Start
+                    )
+                    Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                    AgendaItemCard(
+                        agendaItemOverview = AgendaItemOverview(
+                            "Test Title",
+                            subtitle = "Test Subtitle",
+                            date = "Test DATE",
+                            cardColor = Color.LightGray
+                        ),
+                        agendaClickEvent = { viewModel.onClickEvent(AgendaClickEvent.AgendaItemSettings) },
+                        modifier = Modifier
+                    )
                 }
             }
         }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="content_desc_dropdown_arrow">downward arrow signifying a dropdown here</string>
+    <string name="text_agenda_today_title">Today</string>
 </resources>
